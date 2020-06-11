@@ -6,117 +6,304 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            height: height / 5,
-            child: Column(),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            height: height / 4,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.purple,
-                  child: Text(
-                    "Kenya",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            color: Colors.blue[800],
+                            child: Text(
+                              ". WorldWide",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            color: Colors.red[200],
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(text: ". Fatality rate:  "),
+                                  TextSpan(text: "5.59%"),
+                                ],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Row(
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.orange,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    "7,549, 227",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Confirmed Cases",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.orange,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    "7,549, 227",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Confirmed Cases",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.orange,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    "7,549, 227",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  Text(
+                                    "Confirmed Cases",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    color: Colors.purple,
+                    width: double.infinity,
+                    height: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Kenya",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "3215",
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Confirmed ",
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "3215",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Deaths",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "3215",
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                "Recovered",
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20)
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
                   children: <Widget>[
                     Expanded(
+                      flex: 2,
+                      child: Image.asset(
+                        "assets/images/female_1.png",
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
                       child: Column(
                         children: <Widget>[
-                          Text("3215"),
                           Text(
-                            "Confirmed Cases",
-                            style: TextStyle(color: Colors.orange),
+                            "Name",
+                            textAlign: TextAlign.left,
                           ),
+                          SizedBox(height: 10),
+                          Text("Gender"),
+                          SizedBox(height: 10),
+                          Text("Number"),
+                          SizedBox(height: 10),
+                          Text("County"),
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 10),
                     Expanded(
+                      flex: 1,
                       child: Column(
                         children: <Widget>[
-                          Text("3215", style: TextStyle(color: Colors.green)),
-                          Text("Deaths", style: TextStyle(color: Colors.red)),
+                          IconButton(
+                            alignment: Alignment.topRight,
+                            icon: Icon(Icons.edit, color: Colors.grey),
+                            onPressed: () {
+                              return Navigator.of(context).pushNamed("/login");
+                            },
+                          ),
+                          SizedBox(height: 60)
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          Text("3215", style: TextStyle(color: Colors.green)),
-                          Text("Recovered",
-                              style: TextStyle(color: Colors.green)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 20),
                   ],
-                )
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            height: height / 4,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Image.asset(
-                    "assets/images/male_1.png",
-                    fit: BoxFit.fill,
-                  ),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text("Name"),
-                      Text("Gender"),
-                      Text("Number"),
-                      Text("County"),
-                    ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "Exposure",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Exposure",
-                  textAlign: TextAlign.center,
-                )
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
