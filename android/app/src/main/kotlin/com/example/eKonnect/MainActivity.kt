@@ -1,0 +1,6 @@
+package com.example.eKonnect
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
