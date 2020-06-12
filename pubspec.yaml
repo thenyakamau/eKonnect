@@ -45,10 +45,19 @@ dependencies:
   data_connection_checker: ^0.3.4
   #svg loader
   flutter_svg: ^0.17.4
+   #chopper for http
+  chopper: ^3.0.2
+  #uuid
+  uuid: ^2.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  mockito: ^4.1.1
+  flutter_stetho: ^0.5.2
+  build_runner: 
+  chopper_generator: ^3.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

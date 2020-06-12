@@ -40,77 +40,82 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "First Name",
-                  labelStyle: kLabelStyle,
-                  contentPadding: EdgeInsets.only(top: 14.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    // border: const OutlineInputBorder(),
+                    labelText: "First Name",
+                    labelStyle: kLabelStyle,
+                    // contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.person,
+                    ),
+                    hintText: 'Enter your first name',
+                    hintStyle: kHintTextStyle,
                   ),
-                  hintText: 'Enter your first name',
-                  hintStyle: kHintTextStyle,
+                  onChanged: (value) {
+                    f_name = value;
+                  },
                 ),
-                onChanged: (value) {
-                  f_name = value;
-                },
               ),
               SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "Last Name",
-                  labelStyle: kLabelStyle,
-                  contentPadding: EdgeInsets.only(top: 14.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Last Name",
+                    labelStyle: kLabelStyle,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.person,
+                    ),
+                    hintText: 'Enter your last name',
+                    hintStyle: kHintTextStyle,
                   ),
-                  hintText: 'Enter your last name',
-                  hintStyle: kHintTextStyle,
+                  onChanged: (value) {
+                    l_name = value;
+                  },
                 ),
-                onChanged: (value) {
-                  l_name = value;
-                },
               ),
               SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "Phone Number",
-                  labelStyle: kLabelStyle,
-                  contentPadding: EdgeInsets.only(top: 14.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Phone Number",
+                    labelStyle: kLabelStyle,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.call,
+                    ),
+                    hintText: 'Enter your phone number',
+                    hintStyle: kHintTextStyle,
                   ),
-                  hintText: 'Enter your phone number',
-                  hintStyle: kHintTextStyle,
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    p_number = value;
+                  },
                 ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  p_number = value;
-                },
               ),
               SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "ID Number",
-                  labelStyle: kLabelStyle,
-                  contentPadding: EdgeInsets.only(top: 14.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "ID Number",
+                    labelStyle: kLabelStyle,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.credit_card,
+                    ),
+                    hintText: 'Enter your id',
+                    hintStyle: kHintTextStyle,
                   ),
-                  hintText: 'Enter your id',
-                  hintStyle: kHintTextStyle,
+                  onChanged: (value) {
+                    id = value;
+                  },
                 ),
-                onChanged: (value) {
-                  id = value;
-                },
               ),
               SizedBox(height: 10),
               Text(
@@ -130,23 +135,24 @@ class LoginPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.left,
               ),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: "Phone Number",
-                  labelStyle: kLabelStyle,
-                  contentPadding: EdgeInsets.only(top: 14.0),
-                  prefixIcon: Icon(
-                    Icons.email,
-                    color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "D.O.B",
+                    labelStyle: kLabelStyle,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.calendar_today,
+                    ),
+                    hintText: 'Enter your date of birth',
+                    hintStyle: kHintTextStyle,
                   ),
-                  hintText: 'Enter your phone number',
-                  hintStyle: kHintTextStyle,
+                  keyboardType: TextInputType.datetime,
+                  onChanged: (value) {
+                    date = value;
+                  },
                 ),
-                keyboardType: TextInputType.datetime,
-                onChanged: (value) {
-                  date = value;
-                },
               ),
               SizedBox(height: 10),
               Container(
