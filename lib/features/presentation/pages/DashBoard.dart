@@ -1,8 +1,25 @@
+import 'package:eKonnect/core/location/GetUserLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DashBoard extends StatelessWidget {
+import '../../../injection_container.dart';
+import '../bloc/dashboarddata/dashboarddata_bloc.dart';
+
+class DashBoard extends StatefulWidget {
   const DashBoard({Key key}) : super(key: key);
+
+  @override
+  _DashBoardState createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+  DashboarddataBloc bloc;
+  @override
+  void initState() {
+    bloc = sl<DashboarddataBloc>();
+    bloc.add(GetLocationEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

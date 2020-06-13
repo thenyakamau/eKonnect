@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Failures.dart';
 import '../../../core/usecases/UseCases.dart';
 import '../entities/ApiSuccess.dart';
+import '../entities/UserProfile.dart';
 import '../repositories/EKonnectRepository.dart';
 
 class LoginUser extends UseCase<ApiSuccess, LoginParams> {

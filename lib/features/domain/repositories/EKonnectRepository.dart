@@ -6,4 +6,5 @@ import '../entities/ApiSuccess.dart';
 
 abstract class EKonnectRepository {
   Future<Either<Failure, ApiSuccess>> loginUser(UserProfile userProfile);
+  Future<Either<Failure, String>> getUserCounty();
 }

@@ -29,3 +29,11 @@ const kTextLightColor = Color(0xFF6A727D);
 
 const CACHED_USER = "CACHED_USER";
 const CACHED_UUID = "CACHED_UUID";
+const CACHED_USER_COUNTY = "CACHED_USER_COUNTY";
+
+const String SERVER_FAILURE_MESSAGE = "Server Failure";
+const String CACHE_FAILURE_MESSAGE = "Cache Failure";
+const String INPUT_FAILURE_MESSAGE = "Input Failure";
+const String PERMISION_DENIED = "please grant permission";
+const String PERMISION_NEVER_ASKED =
+    "permission denied- please enable it from app settings";

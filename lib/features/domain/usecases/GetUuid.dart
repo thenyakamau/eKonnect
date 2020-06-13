@@ -1,8 +1,15 @@
-import 'package:eKonnect/core/errors/Failures.dart';
-import 'package:dartz/dartz.dart';
-import 'package:eKonnect/core/usecases/UseCases.dart';
+import 'package:meta/meta.dart';
 
-class GetUUid extends UseCase<String, NoParams> {
-  @override
-  Future<Either<Failure, String>> call(NoParams params) {}
+import '../../../core/usecases/UseCases.dart';
+import '../../data/datasources/EKonnectLocalDataSource.dart';
+
+class GetUUid {
+  final EKonnectLocalDataSource localDataSource;
+
+  GetUUid({@required this.localDataSource});
+
+  Future<String> call(NoParams params) async {
+    String uuid = await localDataSource.getUUid();
+    return uuid;
+  }
 }

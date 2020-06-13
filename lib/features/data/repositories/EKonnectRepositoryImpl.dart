@@ -41,4 +41,17 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, String>> getUserCounty() async {
+    String userLocation;
+    try {
+      userLocation = await localDataSource.getUserCounty();
+      return Right(userLocation);
+    } on PermissionDeniedException {
+      return Left(PermissionDeniedFailure());
+    } on PermissionNeveAskedException {
+      return Left(PermissionNeveAskedFailure());
+    }
+  }
 }

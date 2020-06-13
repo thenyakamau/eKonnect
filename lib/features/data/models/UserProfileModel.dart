@@ -1,5 +1,6 @@
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:meta/meta.dart';
+
+import '../../domain/entities/UserProfile.dart';
 
 class UserProfileModel extends UserProfile {
   final String f_name;

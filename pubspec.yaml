@@ -49,6 +49,14 @@ dependencies:
   chopper: ^3.0.2
   #uuid
   uuid: ^2.0.4
+  #location
+  location: ^3.0.0
+  #geocoder
+  geocoder: ^0.2.1
+  # # #geolocator
+  # # geolocator: '^1.6.3'
+  #Date Time Form Field
+  datetime_picker_formfield: ^1.0.0
 
 dev_dependencies:
   flutter_test:

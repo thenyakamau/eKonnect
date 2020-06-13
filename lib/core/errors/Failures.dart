@@ -29,3 +29,13 @@ class CheckAuthFormatFailure extends Failure {
   @override
   List<Object> get props => [];
 }
+
+class PermissionDeniedFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
+
+class PermissionNeveAskedFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
