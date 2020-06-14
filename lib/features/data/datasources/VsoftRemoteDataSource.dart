@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -6,7 +7,7 @@ import '../models/UserProfileModel.dart';
 import 'VsoftApiService.dart';
 
 abstract class VsoftRemoteDataSource {
-  Future<ApiSuccessModel> loginUser(UserProfileModel userProfile);
+  Future<Response> loginUser(UserProfileModel userProfile);
 }
 
 class VsoftRemoteDataSourceImpl implements VsoftRemoteDataSource {
@@ -15,10 +16,11 @@ class VsoftRemoteDataSourceImpl implements VsoftRemoteDataSource {
   VsoftRemoteDataSourceImpl({@required this.vsoftApiService});
 
   @override
-  Future<ApiSuccessModel> loginUser(UserProfileModel userProfile) async {
+  Future<Response> loginUser(UserProfileModel userProfile) async {
     final response = await vsoftApiService.loginUser(userProfile.toJson());
+    print(response.body);
     if (response.statusCode == 200) {
-      return response.body;
+      return response;
     } else {
       throw ServerException();
     }

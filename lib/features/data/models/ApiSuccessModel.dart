@@ -1,15 +1,16 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/entities/ApiSuccess.dart';
 
-class ApiSuccessModel extends ApiSuccess {
+class ApiSuccessModel extends Equatable {
   final bool success;
   final String message;
 
   ApiSuccessModel({
     @required this.success,
     @required this.message,
-  }) : super(message: message, success: success);
+  }) : super();
 
   factory ApiSuccessModel.fromJson(Map<String, dynamic> json) {
     // success = json['success'];
@@ -23,4 +24,7 @@ class ApiSuccessModel extends ApiSuccess {
     data['message'] = this.message;
     return data;
   }
+
+  @override
+  List<Object> get props => [message, success];
 }

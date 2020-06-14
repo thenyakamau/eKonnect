@@ -57,6 +57,8 @@ dependencies:
   # # geolocator: '^1.6.3'
   #Date Time Form Field
   datetime_picker_formfield: ^1.0.0
+  #logging
+  logging: ^0.11.4
 
 dev_dependencies:
   flutter_test:

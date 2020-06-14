@@ -1,10 +1,14 @@
+import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 
 import '../../../core/errors/Failures.dart';
-import '../entities/ApiSuccess.dart';
+import '../../data/models/ApiSuccessModel.dart';
+import '../../data/models/UserProfileModel.dart';
 
 abstract class EKonnectRepository {
-  Future<Either<Failure, ApiSuccess>> loginUser(UserProfile userProfile);
+  Future<Either<Failure, Response>> loginUser(
+    UserProfileModel userProfileModel,
+  );
   Future<Either<Failure, String>> getUserCounty();
+  Future<Either<Failure, Response>> getCountries();
 }

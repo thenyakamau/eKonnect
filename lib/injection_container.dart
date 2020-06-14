@@ -1,22 +1,25 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:eKonnect/core/util/AuthenticationChecker.dart';
-import 'package:eKonnect/features/domain/usecases/GetUuid.dart';
-import 'package:eKonnect/features/domain/usecases/LoginUser.dart';
-import 'package:eKonnect/features/presentation/bloc/logindata/logindata_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/location/GetUserLocation.dart';
 import 'core/network/NetworkInfo.dart';
+import 'core/util/AuthenticationChecker.dart';
+import 'features/data/datasources/EKonnectApiService.dart';
 import 'features/data/datasources/EKonnectLocalDataSource.dart';
 import 'features/data/datasources/EKonnectRemoteDataSource.dart';
 import 'features/data/datasources/VsoftApiService.dart';
 import 'features/data/datasources/VsoftRemoteDataSource.dart';
 import 'features/data/repositories/EKonnectRepositoryImpl.dart';
 import 'features/domain/repositories/EKonnectRepository.dart';
+import 'features/domain/usecases/GetCountries.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
+import 'features/domain/usecases/GetUuid.dart';
+import 'features/domain/usecases/LoginUser.dart';
 import 'features/presentation/bloc/dashboarddata/dashboarddata_bloc.dart';
+import 'features/presentation/bloc/logindata/logindata_bloc.dart';
+import 'features/presentation/bloc/statisticsdata/statisticsdata_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -24,6 +27,7 @@ Future<void> init() async {
   _initializeLogin();
   _initializeDashBoard();
   _initializeEKonnectRepository();
+  _initializeStatistics();
 
   //!core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -44,6 +48,7 @@ void _initializeEKonnectRepository() {
     () => EKonnectRepositoryImpl(
       localDataSource: sl(),
       remoteDataSource: sl(),
+      eKonnectRemoteDataSource: sl(),
       networkInfo: sl(),
     ),
   );
@@ -52,13 +57,14 @@ void _initializeEKonnectRepository() {
         sharedPreferences: sl(), userLocation: sl());
   });
   sl.registerLazySingleton<EKonnectRemoteDataSource>(
-      () => EKonnectRemoteDataSourceImpl());
+      () => EKonnectRemoteDataSourceImpl(eKonnectApiService: sl()));
 
   sl.registerLazySingleton<VsoftRemoteDataSource>(() {
     return VsoftRemoteDataSourceImpl(vsoftApiService: sl());
   });
 
   sl.registerLazySingleton(() => VsoftApiService.create());
+  sl.registerLazySingleton(() => EKonnectApiService.create());
 }
 
 void _initializeLogin() {
@@ -78,4 +84,9 @@ void _initializeLogin() {
 void _initializeDashBoard() {
   sl.registerFactory(() => DashboarddataBloc(getUserCounty: sl()));
   sl.registerLazySingleton(() => GetUserCounty(eKonnectRepository: sl()));
+}
+
+void _initializeStatistics() {
+  sl.registerFactory(() => StatisticsdataBloc(getCountries: sl()));
+  sl.registerLazySingleton(() => GetCountries(eKonnectRepository: sl()));
 }

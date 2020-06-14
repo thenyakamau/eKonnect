@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../core/util/Constants.dart';
 import '../injection_container.dart';
 import 'presentation/bloc/logindata/logindata_bloc.dart';
+import 'presentation/widgets/login_widgets/login_wigets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   LogindataBloc bloc;
   String gender;
+  String f_name, l_name, p_number, id, mdate;
   @override
   void initState() {
     bloc = sl<LogindataBloc>();
@@ -30,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    String f_name, l_name, p_number, id, mdate;
     double height = MediaQuery.of(context).size.height / 3;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -85,7 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                             hintStyle: kHintTextStyle,
                           ),
                           onChanged: (value) {
-                            f_name = value;
+                            setState(() {
+                              f_name = value;
+                            });
                           },
                         ),
                       ),
@@ -104,7 +107,9 @@ class _LoginPageState extends State<LoginPage> {
                             hintStyle: kHintTextStyle,
                           ),
                           onChanged: (value) {
-                            l_name = value;
+                            setState(() {
+                              l_name = value;
+                            });
                           },
                         ),
                       ),
@@ -124,7 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
-                            p_number = value;
+                            setState(() {
+                              p_number = value;
+                            });
                           },
                         ),
                       ),
@@ -143,7 +150,9 @@ class _LoginPageState extends State<LoginPage> {
                             hintStyle: kHintTextStyle,
                           ),
                           onChanged: (value) {
-                            id = value;
+                            setState(() {
+                              id = value;
+                            });
                           },
                         ),
                       ),
@@ -230,27 +239,75 @@ class _LoginPageState extends State<LoginPage> {
                             int day = value.day;
                             int month = value.month;
                             int year = value.year;
-                            mdate = '$day/$month/$year';
+                            setState(() {
+                              mdate = '$day/$month/$year';
+                            });
                           },
                         ),
                       ),
                       SizedBox(height: 10),
-                      LoginButton(
-                        bloc: bloc,
-                        f_name: f_name,
-                        l_name: l_name,
-                        p_number: p_number,
-                        id: id,
-                        gender: gender,
-                        date: mdate,
-                      )
+                      LoginButton(press: () {
+                        print(f_name);
+                        return bloc.add(LoginUserEvent(
+                          f_name: f_name,
+                          l_name: l_name,
+                          p_number: p_number,
+                          id: id,
+                          gender: gender,
+                          dob: mdate,
+                        ));
+                      })
                     ],
                   );
                 } else if (state is LoginLoadingState) {
                   return Center(
                     child: LoadingWidget(height: height),
                   );
-                } else if (state is LoginLoadedState) {}
+                } else if (state is LoginLoadedState) {
+                  return Center(
+                    child: AlertDialog(
+                      title: Text('Details Added'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text(state.message),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Home'),
+                          onPressed: () {
+                            Navigator.of(context).popAndPushNamed('/');
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state is LoginErrorState) {
+                  return Center(
+                    child: AlertDialog(
+                      title: Text('Error'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text(state.message),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Retry'),
+                          onPressed: () {
+                            bloc.add(LoginResetEvent());
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return null;
+                }
               },
             ),
           ),
@@ -263,63 +320,5 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     bloc.close();
     super.dispose();
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key key,
-    @required this.bloc,
-    @required this.f_name,
-    @required this.l_name,
-    @required this.p_number,
-    @required this.id,
-    @required this.gender,
-    @required this.date,
-  }) : super(key: key);
-
-  final LogindataBloc bloc;
-  final String f_name;
-  final String l_name;
-  final String p_number;
-  final String id;
-  final String gender;
-  final String date;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        onPressed: () {
-          return bloc.add(
-            LoginUserEvent(
-              f_name: f_name,
-              l_name: l_name,
-              p_number: p_number,
-              id: id,
-              gender: gender,
-              dob: date,
-            ),
-          );
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.red[400],
-        child: Text(
-          "Submit",
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: "OpenSans",
-          ),
-        ),
-      ),
-    );
   }
 }

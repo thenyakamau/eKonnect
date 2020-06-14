@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
+import 'package:eKonnect/features/data/models/ApiSuccessModel.dart';
+import 'package:eKonnect/features/data/models/UserProfileModel.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -56,7 +59,7 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
         yield* userCountyEither.fold((failure) async* {
           yield LoginErrorState(message: _mapFailureToMessage(failure));
         }, (county) async* {
-          UserProfile userProfile = UserProfile(
+          UserProfileModel userProfileModel = UserProfileModel(
             f_name: event.f_name,
             l_name: event.l_name,
             p_number: event.p_number,
@@ -67,23 +70,25 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
             location: county,
           );
           final loginEither = await loginUser(
-            LoginParams(userProfile: userProfile),
+            LoginParams(userProfileModel: userProfileModel),
           );
           yield* _getLoginOrFailure(loginEither);
         });
       });
+    } else if (event is LoginResetEvent) {
+      yield LogindataInitial();
     }
   }
 
   Stream<LogindataState> _getLoginOrFailure(
-      Either<Failure, ApiSuccess> loginEither) async* {
+      Either<Failure, Response> loginEither) async* {
     yield loginEither.fold(
       (failure) => LoginErrorState(message: _mapFailureToMessage(failure)),
       (success) {
-        if (success.success == true) {
-          return LoginLoadedState(message: success.message);
+        if (success.body['success'] == true) {
+          return LoginLoadedState(message: success.body['message']);
         } else {
-          return LoginErrorState(message: success.message);
+          return LoginErrorState(message: success.body['message']);
         }
       },
     );

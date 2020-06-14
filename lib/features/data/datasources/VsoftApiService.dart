@@ -7,15 +7,18 @@ part 'VsoftApiService.chopper.dart';
 @ChopperApi(baseUrl: '/index.php/api/')
 abstract class VsoftApiService extends ChopperService {
   @Post(path: 'contact')
-  Future<Response<ApiSuccessModel>> loginUser(
+  Future<Response> loginUser(
     @Body() Map<String, dynamic> body,
   );
   static VsoftApiService create() {
     final client = ChopperClient(
-      baseUrl: 'https://econnect.vsoft.co.ke',
-      services: [_$VsoftApiService()],
-      converter: JsonConverter(),
-    );
+        baseUrl: 'https://econnect.vsoft.co.ke',
+        services: [_$VsoftApiService()],
+        converter: JsonConverter(),
+        interceptors: [
+          HeadersInterceptor({'Cache-Control': 'no-cache'}),
+          HttpLoggingInterceptor()
+        ]);
     return _$VsoftApiService(client);
   }
 }

@@ -23,3 +23,8 @@ class LoginUserEvent extends LogindataEvent {
   @override
   List<Object> get props => [f_name, l_name, p_number, id, gender, dob];
 }
+
+class LoginResetEvent extends LogindataEvent {
+  @override
+  List<Object> get props => [];
+}

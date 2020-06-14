@@ -23,9 +23,6 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
   Stream<DashboarddataState> mapEventToState(
     DashboarddataEvent event,
   ) async* {
-    if (event is GetLocationEvent) {
-      final userCountyEither = await getUserCounty(NoParams());
-      userCountyEither.fold((failure) => null, (county) => print(county));
-    }
+    if (event is GetLocationEvent) {}
   }
 }
