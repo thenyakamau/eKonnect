@@ -1,21 +1,22 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eKonnect/core/errors/Failures.dart';
-import 'package:eKonnect/core/util/Constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../core/usecases/UseCases.dart';
-import '../../../domain/usecases/GetUserCounty.dart';
+import '../../../../core/errors/Failures.dart';
+import '../../../../core/util/Constants.dart';
+import '../../../domain/entities/Countries.dart';
+import '../../../domain/entities/UserProfile.dart';
+import '../../../domain/usecases/GetCountryData.dart';
 
 part 'dashboarddata_event.dart';
 part 'dashboarddata_state.dart';
 
 class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
-  final GetUserCounty getUserCounty;
+  final GetCountryData getCountryData;
 
-  DashboarddataBloc({@required this.getUserCounty});
+  DashboarddataBloc({@required this.getCountryData});
 
   @override
   DashboarddataState get initialState => DashboarddataInitial();
@@ -24,7 +25,10 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
   Stream<DashboarddataState> mapEventToState(
     DashboarddataEvent event,
   ) async* {
-    if (event is GetLocationEvent) {}
+    if (event is GetDashBoardData) {
+      yield DashboarddataLoadingState();
+      //final worldEither =
+    }
   }
 
   String _mapFailureToMessage(Failure failure) {

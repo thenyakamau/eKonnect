@@ -30,6 +30,7 @@ const kTextLightColor = Color(0xFF6A727D);
 const CACHED_USER = "CACHED_USER";
 const CACHED_UUID = "CACHED_UUID";
 const CACHED_USER_COUNTY = "CACHED_USER_COUNTY";
+const CACHED_FIRST_TIME = "CACHED_FIRST_TIME";
 
 const String SERVER_FAILURE_MESSAGE = "Server Failure";
 const String CACHE_FAILURE_MESSAGE = "Cache Failure";

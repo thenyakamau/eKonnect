@@ -24,9 +24,9 @@ class _$EKonnectApiService extends EKonnectApiService {
   }
 
   @override
-  Future<Response<CountriesModel>> getCountryData(String country) {
+  Future<Response<dynamic>> getCountryData(String country) {
     final $url = '/countries/$country';
     final $request = Request('GET', $url, client.baseUrl);
-    return client.send<CountriesModel, CountriesModel>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 }

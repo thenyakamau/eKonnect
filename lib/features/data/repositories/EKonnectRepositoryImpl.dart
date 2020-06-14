@@ -1,16 +1,17 @@
-import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/data/models/CountriesModel.dart';
-import 'package:eKonnect/features/domain/entities/ApiSuccess.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
 import '../../../core/errors/Failures.dart';
 import '../../../core/network/NetworkInfo.dart';
+import '../../domain/entities/ApiSuccess.dart';
+import '../../domain/entities/Countries.dart';
 import '../../domain/repositories/EKonnectRepository.dart';
 import '../datasources/EKonnectLocalDataSource.dart';
 import '../datasources/EKonnectRemoteDataSource.dart';
 import '../datasources/VsoftRemoteDataSource.dart';
+import '../models/CountriesModel.dart';
+import '../models/InteractionModel.dart';
 import '../models/UserProfileModel.dart';
 
 class EKonnectRepositoryImpl implements EKonnectRepository {
@@ -52,12 +53,6 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
         return Left(ServerFailure());
       }
     } else {
-      // try {
-      //   final cachedUser = await localDataSource.getUserData();
-      //   return Right(cachedUser);
-      // } on CacheException {
-      //   return Left(CacheFailure());
-      // }
       return Left(ServerFailure());
     }
   }
@@ -76,4 +71,37 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, ApiSuccess>> saveInteractions(
+      InteractionModel interactionModel) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await remoteDataSource.logContact(interactionModel);
+        localDataSource.cacheInteractions(interactionModel);
+        return Right(response);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Countries>> getCountryData(String country) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await eKonnectRemoteDataSource.getCountry(country);
+        return Right(response);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List>> getDashBoardCache() {}
 }

@@ -14,6 +14,7 @@ import 'features/data/datasources/VsoftRemoteDataSource.dart';
 import 'features/data/repositories/EKonnectRepositoryImpl.dart';
 import 'features/domain/repositories/EKonnectRepository.dart';
 import 'features/domain/usecases/GetCountries.dart';
+import 'features/domain/usecases/GetCountryData.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
 import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
@@ -82,7 +83,8 @@ void _initializeLogin() {
 }
 
 void _initializeDashBoard() {
-  sl.registerFactory(() => DashboarddataBloc(getUserCounty: sl()));
+  sl.registerFactory(() => DashboarddataBloc(getCountryData: sl()));
+  sl.registerLazySingleton(() => GetCountryData(repository: sl()));
   sl.registerLazySingleton(() => GetUserCounty(eKonnectRepository: sl()));
 }
 

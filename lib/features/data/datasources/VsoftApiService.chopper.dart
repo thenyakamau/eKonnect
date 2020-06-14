@@ -24,4 +24,13 @@ class _$VsoftApiService extends VsoftApiService {
     return client.send<dynamic, dynamic>($request,
         requestConverter: FormUrlEncodedConverter.requestFactory);
   }
+
+  @override
+  Future<Response<dynamic>> logContact(Map<String, dynamic> body) {
+    final $url = '/index.php/api/contact';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
+  }
 }

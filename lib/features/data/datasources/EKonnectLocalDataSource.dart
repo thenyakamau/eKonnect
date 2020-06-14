@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:eKonnect/features/data/models/CountriesModel.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/errors/Exceptions.dart';
-import '../../../core/errors/Failures.dart';
 import '../../../core/location/GetUserLocation.dart';
 import '../../../core/util/Constants.dart';
 import '../../../core/util/GenerateUuid.dart';
+import '../models/CountriesModel.dart';
+import '../models/InteractionModel.dart';
 import '../models/UserProfileModel.dart';
 
 abstract class EKonnectLocalDataSource {
@@ -18,6 +18,8 @@ abstract class EKonnectLocalDataSource {
   Future<String> getUserCounty();
   Future<void> cacheCountries(List<CountriesModel> countriesModel);
   Future<List<CountriesModel>> getCountries();
+  Future<List<InteractionModel>> getInteractions();
+  Future<void> cacheInteractions(InteractionModel interactionModel);
 }
 
 class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
@@ -80,4 +82,10 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
 
   @override
   Future<List<CountriesModel>> getCountries() {}
+
+  @override
+  Future<void> cacheInteractions(InteractionModel interactionModel) {}
+
+  @override
+  Future<List<InteractionModel>> getInteractions() {}
 }

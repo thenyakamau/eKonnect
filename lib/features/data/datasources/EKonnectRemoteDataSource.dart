@@ -1,16 +1,12 @@
-import 'package:chopper/chopper.dart';
-import 'package:dartz/dartz.dart';
-import 'package:eKonnect/core/errors/Exceptions.dart';
-import 'package:eKonnect/core/errors/Failures.dart';
-import 'package:eKonnect/features/data/datasources/EKonnectApiService.dart';
-import 'package:eKonnect/features/data/datasources/VsoftApiService.dart';
-import 'package:eKonnect/features/data/models/ApiSuccessModel.dart';
-import 'package:eKonnect/features/data/models/CountriesModel.dart';
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:meta/meta.dart';
+
+import '../../../core/errors/Exceptions.dart';
+import '../models/CountriesModel.dart';
+import 'EKonnectApiService.dart';
 
 abstract class EKonnectRemoteDataSource {
   Future<List<CountriesModel>> getCountriesData();
+  Future<CountriesModel> getCountry(String country);
 }
 
 class EKonnectRemoteDataSourceImpl implements EKonnectRemoteDataSource {
@@ -22,11 +18,22 @@ class EKonnectRemoteDataSourceImpl implements EKonnectRemoteDataSource {
   Future<List<CountriesModel>> getCountriesData() async {
     final response = await eKonnectApiService.getCountriesData();
 
-    List<CountriesModel> countries =
-        (response.body as List).map((i) => CountriesModel.fromJson(i)).toList();
-
     if (response.statusCode == 200) {
+      List<CountriesModel> countries = (response.body as List)
+          .map((i) => CountriesModel.fromJson(i))
+          .toList();
       return countries;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<CountriesModel> getCountry(String country) async {
+    final response = await eKonnectApiService.getCountryData(country);
+    if (response.statusCode == 200) {
+      CountriesModel countriesModel = CountriesModel.fromJson(response.body);
+      return countriesModel;
     } else {
       throw ServerException();
     }

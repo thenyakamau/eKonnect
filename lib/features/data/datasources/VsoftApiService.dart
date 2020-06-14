@@ -9,6 +9,13 @@ abstract class VsoftApiService extends ChopperService {
   Future<Response> loginUser(
     @Body() Map<String, dynamic> body,
   );
+
+  @FactoryConverter(request: FormUrlEncodedConverter.requestFactory)
+  @Post(path: 'contact')
+  Future<Response> logContact(
+    @Body() Map<String, dynamic> body,
+  );
+
   static VsoftApiService create() {
     final client = ChopperClient(
         baseUrl: 'https://econnect.vsoft.co.ke',
