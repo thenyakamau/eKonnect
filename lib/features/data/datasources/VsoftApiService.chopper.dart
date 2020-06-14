@@ -18,9 +18,10 @@ class _$VsoftApiService extends VsoftApiService {
 
   @override
   Future<Response<dynamic>> loginUser(Map<String, dynamic> body) {
-    final $url = '/index.php/api/contact';
+    final $url = '/index.php/api/users';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<dynamic, dynamic>($request,
+        requestConverter: FormUrlEncodedConverter.requestFactory);
   }
 }

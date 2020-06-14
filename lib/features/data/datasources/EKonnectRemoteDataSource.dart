@@ -10,7 +10,7 @@ import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:meta/meta.dart';
 
 abstract class EKonnectRemoteDataSource {
-  Future<Response> getCountriesData();
+  Future<List<CountriesModel>> getCountriesData();
 }
 
 class EKonnectRemoteDataSourceImpl implements EKonnectRemoteDataSource {
@@ -19,11 +19,14 @@ class EKonnectRemoteDataSourceImpl implements EKonnectRemoteDataSource {
   EKonnectRemoteDataSourceImpl({@required this.eKonnectApiService});
 
   @override
-  Future<Response> getCountriesData() async {
+  Future<List<CountriesModel>> getCountriesData() async {
     final response = await eKonnectApiService.getCountriesData();
 
+    List<CountriesModel> countries =
+        (response.body as List).map((i) => CountriesModel.fromJson(i)).toList();
+
     if (response.statusCode == 200) {
-      return response;
+      return countries;
     } else {
       throw ServerException();
     }

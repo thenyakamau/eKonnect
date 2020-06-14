@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eKonnect/features/data/models/CountriesModel.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,8 @@ abstract class EKonnectLocalDataSource {
   Future<void> cacheUser(UserProfileModel cacheUser);
   Future<String> getUUid();
   Future<String> getUserCounty();
+  Future<void> cacheCountries(List<CountriesModel> countriesModel);
+  Future<List<CountriesModel>> getCountries();
 }
 
 class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
@@ -71,4 +74,10 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
       }
     }
   }
+
+  @override
+  Future<void> cacheCountries(List<CountriesModel> countriesModel) {}
+
+  @override
+  Future<List<CountriesModel>> getCountries() {}
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:eKonnect/core/errors/Failures.dart';
+import 'package:eKonnect/core/util/Constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -24,5 +25,20 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
     DashboarddataEvent event,
   ) async* {
     if (event is GetLocationEvent) {}
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case PermissionDeniedFailure:
+        return PERMISION_DENIED;
+      case PermissionNeveAskedFailure:
+        return PERMISION_NEVER_ASKED;
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error';
+    }
   }
 }

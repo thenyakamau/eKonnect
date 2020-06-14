@@ -1,3 +1,4 @@
+import 'package:eKonnect/features/data/models/CountriesModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,8 +35,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           } else if (state is StatisticsdataLoadingState) {
             return Center(child: LoadingWidget(height: height));
           } else if (state is StatisticsdataLoadedState) {
-            List posts = state.response.body;
-            return _buildPost(context, posts);
+            return _buildPost(context, state.countries);
           } else if (state is StatisticsdataErrorState) {
             return Center(child: Text(state.message));
           } else {
@@ -46,9 +46,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
-  ListView _buildPost(BuildContext context, List posts) {
+  ListView _buildPost(BuildContext context, List<CountriesModel> countries) {
     return ListView.builder(
-      itemCount: posts.length,
+      itemCount: countries.length,
       itemBuilder: (context, index) {
         return Card(
           elevation: 2,
@@ -66,7 +66,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      posts[index]['country'],
+                      countries[index].country,
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -84,7 +84,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              posts[index]['cases'].toString(),
+                              countries[index].cases.toString(),
                               style: TextStyle(
                                 color: Colors.orange,
                                 fontSize: 16,
@@ -105,7 +105,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              posts[index]['deaths'].toString(),
+                              countries[index].deaths.toString(),
                               style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 16,
@@ -126,7 +126,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              posts[index]['recovered'].toString(),
+                              countries[index].recovered.toString(),
                               style: TextStyle(
                                 color: Colors.green,
                                 fontSize: 16,

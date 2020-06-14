@@ -59,6 +59,8 @@ dependencies:
   datetime_picker_formfield: ^1.0.0
   #logging
   logging: ^0.11.4
+  #build models
+  built_value: ^7.1.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,8 @@ dev_dependencies:
   flutter_stetho: ^0.5.2
   build_runner: 
   chopper_generator: ^3.0.4
+  json_serializable: ^3.3.0
+  built_value_generator: ^7.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

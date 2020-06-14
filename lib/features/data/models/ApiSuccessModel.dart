@@ -1,30 +1,22 @@
-import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/entities/ApiSuccess.dart';
 
-class ApiSuccessModel extends Equatable {
+part 'ApiSuccessModel.g.dart';
+
+@JsonSerializable()
+class ApiSuccessModel extends ApiSuccess {
   final bool success;
   final String message;
 
   ApiSuccessModel({
     @required this.success,
     @required this.message,
-  }) : super();
+  }) : super(success: success, message: message);
 
-  factory ApiSuccessModel.fromJson(Map<String, dynamic> json) {
-    // success = json['success'];
-    // message = json['message'];
-    return ApiSuccessModel(success: json['success'], message: json['message']);
-  }
+  factory ApiSuccessModel.fromJson(Map<String, dynamic> json) =>
+      _$ApiSuccessModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
-    return data;
-  }
-
-  @override
-  List<Object> get props => [message, success];
+  Map<String, dynamic> toJson() => _$ApiSuccessModelToJson(this);
 }

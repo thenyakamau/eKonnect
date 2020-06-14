@@ -1,5 +1,7 @@
 import 'package:chopper/chopper.dart';
 import 'package:dartz/dartz.dart';
+import 'package:eKonnect/features/data/models/CountriesModel.dart';
+import 'package:eKonnect/features/domain/entities/ApiSuccess.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -38,21 +40,7 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
   }
 
   @override
-  Future<Either<Failure, Response>> getCountries() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final response = await eKonnectRemoteDataSource.getCountriesData();
-        return Right(response);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Response>> loginUser(
+  Future<Either<Failure, ApiSuccess>> loginUser(
       UserProfileModel userProfileModel) async {
     if (await networkInfo.isConnected) {
       try {
@@ -70,6 +58,21 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
       // } on CacheException {
       //   return Left(CacheFailure());
       // }
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CountriesModel>>> getCountries() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await eKonnectRemoteDataSource.getCountriesData();
+        localDataSource.cacheCountries(response);
+        return Right(response);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
       return Left(ServerFailure());
     }
   }

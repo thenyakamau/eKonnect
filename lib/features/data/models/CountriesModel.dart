@@ -1,6 +1,11 @@
-import 'package:eKonnect/features/domain/entities/Countries.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import '../../domain/entities/Countries.dart';
+
+part 'CountriesModel.g.dart';
+
+@JsonSerializable()
 class CountriesModel extends Countries {
   final String country;
   final int cases;
@@ -43,37 +48,8 @@ class CountriesModel extends Countries {
           testsPerOneMillion: testsPerOneMillion,
         );
 
-  factory CountriesModel.fromJson(Map<String, dynamic> json) {
-    return CountriesModel(
-      country: json['country'],
-      cases: json['cases'],
-      todayCases: json['todayCases'],
-      deaths: json['deaths'],
-      todayDeaths: json['todayDeaths'],
-      recovered: json['recovered'],
-      active: json['active'],
-      critical: json['critical'],
-      casesPerOneMillion: json['casesPerOneMillion'],
-      deathsPerOneMillion: json['deathsPerOneMillion'],
-      totalTests: json['totalTests'],
-      testsPerOneMillion: json['testsPerOneMillion'],
-    );
-  }
+  factory CountriesModel.fromJson(Map<String, dynamic> json) =>
+      _$CountriesModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['country'] = this.country;
-    data['cases'] = this.cases;
-    data['todayCases'] = this.todayCases;
-    data['deaths'] = this.deaths;
-    data['todayDeaths'] = this.todayDeaths;
-    data['recovered'] = this.recovered;
-    data['active'] = this.active;
-    data['critical'] = this.critical;
-    data['casesPerOneMillion'] = this.casesPerOneMillion;
-    data['deathsPerOneMillion'] = this.deathsPerOneMillion;
-    data['totalTests'] = this.totalTests;
-    data['testsPerOneMillion'] = this.testsPerOneMillion;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$CountriesModelToJson(this);
 }

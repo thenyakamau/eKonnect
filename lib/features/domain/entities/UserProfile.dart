@@ -2,28 +2,37 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class UserProfile extends Equatable {
-  final String f_name;
-  final String l_name;
-  final String p_number;
-  final String id;
+  final String fname;
+  final String surname;
+  final String phone;
+  final String national_id;
   final String gender;
   final String dob;
-  final String uuid;
+  final String device_id;
   final String location;
 
   UserProfile({
-    @required this.f_name,
-    @required this.l_name,
-    @required this.p_number,
-    @required this.id,
+    @required this.fname,
+    @required this.surname,
+    @required this.phone,
+    @required this.national_id,
     @required this.gender,
     @required this.dob,
-    @required this.uuid,
+    @required this.device_id,
     @required this.location,
   }) : super();
 
   @override
   List<Object> get props {
-    return [f_name, l_name, p_number, id, gender, dob, uuid, location];
+    return [
+      fname,
+      surname,
+      phone,
+      national_id,
+      gender,
+      dob,
+      device_id,
+      location
+    ];
   }
 }

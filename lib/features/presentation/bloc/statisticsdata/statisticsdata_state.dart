@@ -15,12 +15,12 @@ class StatisticsdataLoadingState extends StatisticsdataState {
 }
 
 class StatisticsdataLoadedState extends StatisticsdataState {
-  final Response response;
+  final List<Countries> countries;
 
-  StatisticsdataLoadedState({@required this.response});
+  StatisticsdataLoadedState({@required this.countries});
 
   @override
-  List<Object> get props => [response];
+  List<Object> get props => [countries];
 }
 
 class StatisticsdataErrorState extends StatisticsdataState {

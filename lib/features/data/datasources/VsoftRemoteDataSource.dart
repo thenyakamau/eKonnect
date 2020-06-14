@@ -7,7 +7,7 @@ import '../models/UserProfileModel.dart';
 import 'VsoftApiService.dart';
 
 abstract class VsoftRemoteDataSource {
-  Future<Response> loginUser(UserProfileModel userProfile);
+  Future<ApiSuccessModel> loginUser(UserProfileModel userProfile);
 }
 
 class VsoftRemoteDataSourceImpl implements VsoftRemoteDataSource {
@@ -16,11 +16,12 @@ class VsoftRemoteDataSourceImpl implements VsoftRemoteDataSource {
   VsoftRemoteDataSourceImpl({@required this.vsoftApiService});
 
   @override
-  Future<Response> loginUser(UserProfileModel userProfile) async {
+  Future<ApiSuccessModel> loginUser(UserProfileModel userProfile) async {
     final response = await vsoftApiService.loginUser(userProfile.toJson());
-    print(response.body);
+    var success = ApiSuccessModel.fromJson(response.body);
+
     if (response.statusCode == 200) {
-      return response;
+      return success;
     } else {
       throw ServerException();
     }
