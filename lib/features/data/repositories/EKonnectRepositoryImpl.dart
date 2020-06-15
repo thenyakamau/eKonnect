@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -104,4 +105,14 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
 
   @override
   Future<Either<Failure, List>> getDashBoardCache() {}
+
+  @override
+  Future<Either<Failure, UserProfile>> getCacheUser() async {
+    try {
+      final user = await localDataSource.getUserData();
+      return Right(user);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
 }

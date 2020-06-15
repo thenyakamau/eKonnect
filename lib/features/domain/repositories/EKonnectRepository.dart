@@ -6,6 +6,7 @@ import '../../data/models/InteractionModel.dart';
 import '../../data/models/UserProfileModel.dart';
 import '../entities/ApiSuccess.dart';
 import '../entities/Countries.dart';
+import '../entities/UserProfile.dart';
 
 abstract class EKonnectRepository {
   Future<Either<Failure, ApiSuccess>> loginUser(
@@ -16,4 +17,5 @@ abstract class EKonnectRepository {
       InteractionModel interactionModel);
   Future<Either<Failure, Countries>> getCountryData(String country);
   Future<Either<Failure, List>> getDashBoardCache();
+  Future<Either<Failure, UserProfile>> getCacheUser();
 }

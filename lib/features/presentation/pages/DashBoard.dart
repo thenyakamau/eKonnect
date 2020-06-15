@@ -1,4 +1,3 @@
-import 'package:eKonnect/core/location/GetUserLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   void initState() {
     bloc = sl<DashboarddataBloc>();
-    bloc.add(GetLocationEvent());
+    bloc.add(GetDashBoardData());
     super.initState();
   }
 

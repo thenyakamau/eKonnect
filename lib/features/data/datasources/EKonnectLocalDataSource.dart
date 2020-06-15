@@ -36,6 +36,8 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
 
   @override
   Future<void> cacheUser(UserProfileModel cacheUser) {
+    String useradded = "added_user";
+    sharedPreferences.setString(CACHED_FIRST_TIME, useradded);
     return sharedPreferences.setString(
         CACHED_USER, json.encode(cacheUser.toJson()));
   }

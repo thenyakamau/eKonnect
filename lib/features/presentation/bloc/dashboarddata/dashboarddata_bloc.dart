@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 
 import '../../../../core/errors/Failures.dart';
 import '../../../../core/util/Constants.dart';
+import '../../../data/models/InteractionModel.dart';
 import '../../../domain/entities/Countries.dart';
 import '../../../domain/entities/UserProfile.dart';
 import '../../../domain/usecases/GetCountryData.dart';
@@ -27,7 +28,17 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
   ) async* {
     if (event is GetDashBoardData) {
       yield DashboarddataLoadingState();
-      //final worldEither =
+
+      final worldEither = await getCountryData(CountryParams(country: "World"));
+      yield* worldEither.fold((failure) async* {
+        yield DashboarddataErrorState(message: _mapFailureToMessage(failure));
+      }, (coutry) async* {
+        final kenyanEither =
+            await getCountryData(CountryParams(country: "kenya"));
+        yield* kenyanEither.fold((failure) async* {
+          yield DashboarddataErrorState(message: _mapFailureToMessage(failure));
+        }, (country) async* {});
+      });
     }
   }
 

@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text('Home',
                                   style: TextStyle(color: Colors.white)),
                               onPressed: () {
-                                Navigator.of(context).popAndPushNamed('/');
+                                Navigator.of(context).popAndPushNamed('/home');
                               },
                             ),
                           ],

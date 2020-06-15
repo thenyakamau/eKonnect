@@ -19,10 +19,13 @@ class IntroStatePage extends StatelessWidget {
             child: CircleAvatar(
               radius: 100,
               backgroundColor: Colors.white,
-              child: Image.asset("assets/images/logo.png"),
+              child: Image.asset(
+                "assets/images/logo.png",
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-          Expanded(child: LoginButton(press: press, title: "Start"))
+          LoginButton(press: press, title: "Start")
         ],
       ),
     );
