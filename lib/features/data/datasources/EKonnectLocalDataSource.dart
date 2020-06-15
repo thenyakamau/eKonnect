@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:eKonnect/database/EkonnectInteractions.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,10 +26,12 @@ abstract class EKonnectLocalDataSource {
 class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
   final SharedPreferences sharedPreferences;
   final UserLocation userLocation;
+  final EKonnectInteractions interactions;
 
   EKonnectLocalDataSourceImpl({
     @required this.sharedPreferences,
     @required this.userLocation,
+    @required this.interactions,
   });
 
   @override
@@ -84,7 +87,9 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
   Future<List<CountriesModel>> getCountries() {}
 
   @override
-  Future<void> cacheInteractions(InteractionModel interactionModel) {}
+  Future<void> cacheInteractions(InteractionModel interactionModel) {
+    return interactions.saveInteraction(interactionModel);
+  }
 
   @override
   Future<List<InteractionModel>> getInteractions() {}

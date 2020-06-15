@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/location/GetUserLocation.dart';
 import 'core/network/NetworkInfo.dart';
 import 'core/util/AuthenticationChecker.dart';
+import 'core/util/CheckAppState.dart';
+import 'database/EkonnectInteractions.dart';
 import 'features/data/datasources/EKonnectApiService.dart';
 import 'features/data/datasources/EKonnectLocalDataSource.dart';
 import 'features/data/datasources/EKonnectRemoteDataSource.dart';
@@ -13,6 +15,8 @@ import 'features/data/datasources/VsoftApiService.dart';
 import 'features/data/datasources/VsoftRemoteDataSource.dart';
 import 'features/data/repositories/EKonnectRepositoryImpl.dart';
 import 'features/domain/repositories/EKonnectRepository.dart';
+import 'features/domain/usecases/CheckFirstTime.dart';
+import 'features/domain/usecases/CheckLogin.dart';
 import 'features/domain/usecases/GetCountries.dart';
 import 'features/domain/usecases/GetCountryData.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
@@ -20,6 +24,7 @@ import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
 import 'features/presentation/bloc/dashboarddata/dashboarddata_bloc.dart';
 import 'features/presentation/bloc/logindata/logindata_bloc.dart';
+import 'features/presentation/bloc/splashscreenbloc/splashscreen_bloc.dart';
 import 'features/presentation/bloc/statisticsdata/statisticsdata_bloc.dart';
 
 final sl = GetIt.instance;
@@ -29,12 +34,14 @@ Future<void> init() async {
   _initializeDashBoard();
   _initializeEKonnectRepository();
   _initializeStatistics();
+  _initializeSplashScreen();
 
   //!core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton(() => CheckAuthentication());
   sl.registerLazySingleton<UserLocation>(
       () => UserLocationImpl(location: sl()));
+  sl.registerLazySingleton(() => CheckAppState(sharedPreferences: sl()));
 
   //!External
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -42,6 +49,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => prefs);
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => Location());
+  sl.registerLazySingleton<EKonnectInteractions>(
+      () => EKonnectInteractionsImpl());
+  //sl.registerLazySingleton(() => Hive.openBox("ekonnectInteractions"));
 }
 
 void _initializeEKonnectRepository() {
@@ -55,7 +65,7 @@ void _initializeEKonnectRepository() {
   );
   sl.registerLazySingleton<EKonnectLocalDataSource>(() {
     return EKonnectLocalDataSourceImpl(
-        sharedPreferences: sl(), userLocation: sl());
+        sharedPreferences: sl(), userLocation: sl(), interactions: sl());
   });
   sl.registerLazySingleton<EKonnectRemoteDataSource>(
       () => EKonnectRemoteDataSourceImpl(eKonnectApiService: sl()));
@@ -91,4 +101,11 @@ void _initializeDashBoard() {
 void _initializeStatistics() {
   sl.registerFactory(() => StatisticsdataBloc(getCountries: sl()));
   sl.registerLazySingleton(() => GetCountries(eKonnectRepository: sl()));
+}
+
+void _initializeSplashScreen() {
+  sl.registerFactory(
+      () => SplashscreenBloc(checkFirstTime: sl(), checkLogin: sl()));
+  sl.registerLazySingleton(() => CheckFirstTime(appState: sl()));
+  sl.registerLazySingleton(() => CheckLogin(appState: sl()));
 }

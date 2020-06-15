@@ -311,17 +311,22 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         SizedBox(height: 10),
-        LoginButton(press: () {
-          print(f_name);
-          return bloc.add(LoginUserEvent(
-            f_name: f_name,
-            l_name: l_name,
-            p_number: p_number,
-            id: id,
-            gender: gender,
-            dob: mdate,
-          ));
-        })
+        LoginButton(
+          press: () {
+            print(f_name);
+            return bloc.add(
+              LoginUserEvent(
+                f_name: f_name,
+                l_name: l_name,
+                p_number: p_number,
+                id: id,
+                gender: gender,
+                dob: mdate,
+              ),
+            );
+          },
+          title: "Submit",
+        )
       ],
     );
   }

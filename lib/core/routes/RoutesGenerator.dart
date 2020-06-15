@@ -1,3 +1,5 @@
+import 'package:eKonnect/features/IntroPage.dart';
+import 'package:eKonnect/features/SplashActivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,10 @@ class RoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
+        return CupertinoPageRoute(builder: (_) => SplashScreen());
+      case '/intro':
+        return CupertinoPageRoute(builder: (_) => IntroPage());
+      case '/home':
         return CupertinoPageRoute(builder: (_) => HomePage());
       case '/login':
         return CupertinoPageRoute(builder: (_) => LoginPage());

@@ -3,6 +3,49 @@
 part of 'InteractionModel.dart';
 
 // **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class InteractionModelAdapter extends TypeAdapter<InteractionModel> {
+  @override
+  final typeId = 1;
+
+  @override
+  InteractionModel read(BinaryReader reader) {
+    var numOfFields = reader.readByte();
+    var fields = <int, dynamic>{
+      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return InteractionModel(
+      date: fields[0] as String,
+      from_contact: fields[1] as String,
+      to_contact: fields[2] as String,
+      location: fields[3] as String,
+      latitude: fields[4] as String,
+      longtitude: fields[5] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, InteractionModel obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.date)
+      ..writeByte(1)
+      ..write(obj.from_contact)
+      ..writeByte(2)
+      ..write(obj.to_contact)
+      ..writeByte(3)
+      ..write(obj.location)
+      ..writeByte(4)
+      ..write(obj.latitude)
+      ..writeByte(5)
+      ..write(obj.longtitude);
+  }
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 

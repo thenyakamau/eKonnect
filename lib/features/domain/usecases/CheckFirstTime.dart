@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 
-import '../../../core/usecases/UseCases.dart';
 import '../../../core/util/CheckAppState.dart';
 
 class CheckFirstTime {
@@ -8,7 +7,7 @@ class CheckFirstTime {
 
   CheckFirstTime({@required this.appState});
 
-  Future<bool> call(NoParams params) {
-    appState.checkFirstTimeLogin();
+  Future<bool> call() {
+    return appState.checkFirstTimeLogin();
   }
 }

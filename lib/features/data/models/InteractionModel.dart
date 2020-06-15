@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -6,12 +7,19 @@ import '../../domain/entities/Interactions.dart';
 part 'InteractionModel.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: 1)
 class InteractionModel extends Interaction {
+  @HiveField(0)
   final String date;
+  @HiveField(1)
   final String from_contact;
+  @HiveField(2)
   final String to_contact;
+  @HiveField(3)
   final String location;
+  @HiveField(4)
   final String latitude;
+  @HiveField(5)
   final String longtitude;
 
   InteractionModel({

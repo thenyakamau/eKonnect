@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../bloc/logindata/logindata_bloc.dart';
-
 class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key key,
-    @required this.press,
-  }) : super(key: key);
+  const LoginButton({Key key, @required this.press, @required this.title})
+      : super(key: key);
 
   final Function press;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class LoginButton extends StatelessWidget {
         ),
         color: Colors.red[400],
         child: Text(
-          "Submit",
+          title,
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
