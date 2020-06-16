@@ -1,11 +1,12 @@
-import 'package:eKonnect/features/data/models/InteractionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'core/routes/RoutesGenerator.dart';
+import 'features/data/models/InteractionModel.dart';
 import 'injection_container.dart' as di;
+import 'features/data/models/CountriesModel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(InteractionModelAdapter());
+  Hive.registerAdapter(CountriesModelAdapter());
   runApp(MyApp());
 }
 

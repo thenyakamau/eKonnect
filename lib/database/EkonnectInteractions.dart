@@ -1,9 +1,13 @@
+import 'package:eKonnect/features/data/models/CountriesModel.dart';
 import 'package:eKonnect/features/data/models/InteractionModel.dart';
 import 'package:hive/hive.dart';
 
 abstract class EKonnectInteractions {
   Future<void> saveInteraction(InteractionModel interactionModel);
   Future<List<InteractionModel>> getInteractions();
+  Future<void> saveCountries(List<CountriesModel> countries);
+  Future<List<CountriesModel>> getCountries();
+  Future<CountriesModel> getCountry(String country);
 }
 
 class EKonnectInteractionsImpl implements EKonnectInteractions {
@@ -18,6 +22,29 @@ class EKonnectInteractionsImpl implements EKonnectInteractions {
     var interactionsBox = await Hive.openBox("EkonnectInteractions");
     final listsObject = interactionsBox.toMap();
     List<InteractionModel> interactionModel = listsObject.values.toList();
-    return interactionsBox.get(interactionModel);
+    return interactionModel;
+  }
+
+  @override
+  Future<void> saveCountries(List<CountriesModel> countries) async {
+    var countriesBox = await Hive.openBox("EkonnectCountries");
+    countries.map((country) {
+      countriesBox.add(country);
+    });
+  }
+
+  @override
+  Future<List<CountriesModel>> getCountries() async {
+    var countriesBox = await Hive.openBox("EkonnectCountries");
+    final countriesObject = countriesBox.toMap();
+    List<CountriesModel> countries = countriesObject.values.toList();
+    return countries;
+  }
+
+  @override
+  Future<CountriesModel> getCountry(String country) async {
+    var countriesBox = await Hive.openBox("EkonnectCountries");
+    final countryObject = countriesBox.get(country);
+    return countryObject;
   }
 }

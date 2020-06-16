@@ -14,6 +14,15 @@ class LoginLoadingState extends LogindataState {
   List<Object> get props => [];
 }
 
+class LoggedUserProfileState extends LogindataState {
+  final UserProfile user;
+
+  LoggedUserProfileState({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
 class LoginLoadedState extends LogindataState {
   final String message;
 

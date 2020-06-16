@@ -21,7 +21,9 @@ import 'features/domain/usecases/CheckFirstTime.dart';
 import 'features/domain/usecases/CheckLogin.dart';
 import 'features/domain/usecases/GetCountries.dart';
 import 'features/domain/usecases/GetCountryData.dart';
+import 'features/domain/usecases/GetDashBoardCache.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
+import 'features/domain/usecases/GetUserProfile.dart';
 import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
 import 'features/domain/usecases/TurnOnBlueTooth.dart';
@@ -93,15 +95,19 @@ void _initializeLogin() {
       loginUser: sl(),
       getUUid: sl(),
       getUserCounty: sl(),
+      userProfile: sl(),
     ),
   );
+  sl.registerLazySingleton(() => GetUserProfile(repository: sl()));
 
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
   sl.registerLazySingleton(() => GetUUid(localDataSource: sl()));
 }
 
 void _initializeDashBoard() {
-  sl.registerFactory(() => DashboarddataBloc(getCountryData: sl()));
+  sl.registerFactory(
+      () => DashboarddataBloc(getCountryData: sl(), dashBoardCache: sl()));
+  sl.registerLazySingleton(() => GetDashBoardCache(repository: sl()));
   sl.registerLazySingleton(() => GetCountryData(repository: sl()));
   sl.registerLazySingleton(() => GetUserCounty(eKonnectRepository: sl()));
 }

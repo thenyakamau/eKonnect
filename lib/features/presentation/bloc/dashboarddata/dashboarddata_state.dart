@@ -10,6 +10,22 @@ class DashboarddataInitial extends DashboarddataState {
 }
 
 class DashboarddataLoadingState extends DashboarddataState {
+  final UserProfile user;
+  final Countries world;
+  final Countries kenya;
+  final List<Interaction> interaction;
+
+  DashboarddataLoadingState({
+    @required this.user,
+    @required this.world,
+    @required this.kenya,
+    @required this.interaction,
+  });
+  @override
+  List<Object> get props => [user, world, kenya, interaction];
+}
+
+class DashBoardCacheErrorState extends DashboarddataState {
   @override
   List<Object> get props => [];
 }

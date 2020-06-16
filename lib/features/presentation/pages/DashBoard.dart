@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../injection_container.dart';
+import '../../domain/entities/Countries.dart';
+import '../../domain/entities/Interactions.dart';
+import '../../domain/entities/UserProfile.dart';
 import '../bloc/dashboarddata/dashboarddata_bloc.dart';
+import '../widgets/widgets.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key key}) : super(key: key);
@@ -13,6 +18,10 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   DashboarddataBloc bloc;
+  UserProfile user;
+  Countries world;
+  Countries kenya;
+  List<Interaction> interaction;
   @override
   void initState() {
     bloc = sl<DashboarddataBloc>();
@@ -22,6 +31,32 @@ class _DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
+    return BlocProvider<DashboarddataBloc>(
+        create: (_) => bloc,
+        child: BlocBuilder<DashboarddataBloc, DashboarddataState>(
+          builder: (context, state) {
+            if (state is DashboarddataInitial) {
+              return buildSingleChildScrollView(context);
+            } else if (state is DashboarddataLoadingState) {
+              print("Loading");
+              user = state.user;
+              world = state.world;
+              kenya = state.kenya;
+              interaction = state.interaction;
+              return buildSingleChildScrollView(context);
+            } else if (state is DashBoardCacheErrorState) {
+              return LoadingWidget(height: height);
+            } else {
+              return Container(color: Colors.white);
+            }
+          },
+        ));
+  }
+
+  SingleChildScrollView buildSingleChildScrollView(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -35,31 +70,33 @@ class _DashBoardState extends State<DashBoard> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Row(
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            color: Colors.blue[800],
-                            child: Text(
-                              ". WorldWide",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        Container(
+                          width: width / 3,
+                          alignment: Alignment.topLeft,
+                          color: Colors.blue[800],
+                          child: Text(
+                            "• WorldWide",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         SizedBox(height: 30),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            color: Colors.red[200],
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(text: ". Fatality rate:  "),
-                                  TextSpan(text: "5.59%"),
-                                ],
-                                style: TextStyle(color: Colors.white),
-                              ),
+                        Container(
+                          width: width / 3,
+                          alignment: Alignment.topRight,
+                          color: Colors.red[200],
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(text: "• Fatality rate:  "),
+                                TextSpan(
+                                  text: world != null
+                                      ? (100 * world.deaths / world.cases)
+                                              .toString() +
+                                          "%"
+                                      : "",
+                                ),
+                              ],
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
@@ -81,7 +118,7 @@ class _DashBoardState extends State<DashBoard> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "7,549, 227",
+                                    world != null ? world.cases.toString() : '',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.white),
                                   ),
@@ -106,12 +143,14 @@ class _DashBoardState extends State<DashBoard> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "7,549, 227",
+                                    world != null
+                                        ? world.deaths.toString()
+                                        : '',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
-                                    "Confirmed Cases",
+                                    "Total Deaths",
                                     style: TextStyle(color: Colors.white),
                                   )
                                 ],
@@ -131,12 +170,14 @@ class _DashBoardState extends State<DashBoard> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    "7,549, 227",
+                                    world != null
+                                        ? world.recovered.toString()
+                                        : '',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   Text(
-                                    "Confirmed Cases",
+                                    "Recovered Cases",
                                     style: TextStyle(color: Colors.white),
                                   )
                                 ],
@@ -182,7 +223,7 @@ class _DashBoardState extends State<DashBoard> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                "3215",
+                                kenya != null ? kenya.cases.toString() : '',
                                 style: TextStyle(
                                   color: Colors.orange,
                                   fontSize: 16,
@@ -203,7 +244,7 @@ class _DashBoardState extends State<DashBoard> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                "3215",
+                                kenya != null ? kenya.deaths.toString() : '',
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 16,
@@ -224,7 +265,7 @@ class _DashBoardState extends State<DashBoard> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                "3215",
+                                kenya != null ? kenya.recovered.toString() : '',
                                 style: TextStyle(
                                   color: Colors.green,
                                   fontSize: 16,
@@ -261,7 +302,11 @@ class _DashBoardState extends State<DashBoard> {
                     Expanded(
                       flex: 2,
                       child: Image.asset(
-                        "assets/images/female_1.png",
+                        user != null
+                            ? user.gender == "Male"
+                                ? "assets/images/female_1.png"
+                                : "assets/images/male_1.png"
+                            : 'assets/images/male_1.png',
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -270,15 +315,15 @@ class _DashBoardState extends State<DashBoard> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            "Name",
+                            user != null ? user.fname : '',
                             textAlign: TextAlign.left,
                           ),
                           SizedBox(height: 10),
-                          Text("Gender"),
+                          Text(user != null ? user.gender : ''),
                           SizedBox(height: 10),
-                          Text("Number"),
+                          Text(user != null ? user.phone : ''),
                           SizedBox(height: 10),
-                          Text("County"),
+                          Text(user != null ? user.location : ''),
                         ],
                       ),
                     ),
@@ -315,6 +360,15 @@ class _DashBoardState extends State<DashBoard> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: 20),
+                  Text(
+                    "We have recorded " +
+                        0.toString() +
+                        " interactions between you and other people in the last 21 days. " +
+                        0.toString() +
+                        " of the people you've interacted with are COVID-19 positive patients." +
+                        "\n\n Please note :\n An interaction is valid if both parties have installed this app. Share this app with your loved once.",
+                  )
                 ],
               ),
             )

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -7,6 +6,7 @@ import '../../../core/errors/Failures.dart';
 import '../../../core/network/NetworkInfo.dart';
 import '../../domain/entities/ApiSuccess.dart';
 import '../../domain/entities/Countries.dart';
+import '../../domain/entities/UserProfile.dart';
 import '../../domain/repositories/EKonnectRepository.dart';
 import '../datasources/EKonnectLocalDataSource.dart';
 import '../datasources/EKonnectRemoteDataSource.dart';
@@ -104,7 +104,17 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
   }
 
   @override
-  Future<Either<Failure, List>> getDashBoardCache() {}
+  Future<Either<Failure, List>> getDashBoardCache() async {
+    try {
+      final user = await localDataSource.getUserData();
+      final world = await localDataSource.getCountry("World");
+      final kenya = await localDataSource.getCountry("Kenya");
+      final interactions = await localDataSource.getInteractions();
+      return Right([user, world, kenya, interactions]);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, UserProfile>> getCacheUser() async {

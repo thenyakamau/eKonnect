@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/domain/entities/UserProfile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -12,7 +11,9 @@ import '../../../../core/util/AuthenticationChecker.dart';
 import '../../../../core/util/Constants.dart';
 import '../../../data/models/UserProfileModel.dart';
 import '../../../domain/entities/ApiSuccess.dart';
+import '../../../domain/entities/UserProfile.dart';
 import '../../../domain/usecases/GetUserCounty.dart';
+import '../../../domain/usecases/GetUserProfile.dart';
 import '../../../domain/usecases/GetUuid.dart';
 import '../../../domain/usecases/LoginUser.dart';
 
@@ -24,12 +25,14 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
   final LoginUser loginUser;
   final GetUUid getUUid;
   final GetUserCounty getUserCounty;
+  final GetUserProfile userProfile;
 
   LogindataBloc({
     @required this.checkAuthentication,
     @required this.loginUser,
     @required this.getUUid,
     @required this.getUserCounty,
+    @required this.userProfile,
   })  : assert(checkAuthentication != null),
         assert(loginUser != null);
   @override
@@ -74,6 +77,13 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
       });
     } else if (event is LoginResetEvent) {
       yield LogindataInitial();
+    } else if (event is CheckUserProfileEvent) {
+      final user = await userProfile(NoParams());
+      yield* user.fold((failure) async* {
+        yield LogindataInitial();
+      }, (user) async* {
+        yield LoggedUserProfileState(user: user);
+      });
     }
   }
 

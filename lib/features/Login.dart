@@ -9,6 +9,7 @@ import '../injection_container.dart';
 import 'presentation/bloc/logindata/logindata_bloc.dart';
 import 'presentation/widgets/loading_widget.dart';
 import 'presentation/widgets/login_widgets/login_wigets.dart';
+import 'presentation/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -21,6 +22,11 @@ class _LoginPageState extends State<LoginPage> {
   LogindataBloc bloc;
   String gender;
   String f_name, l_name, p_number, id, mdate;
+  TextEditingController f_controller,
+      l_controller,
+      p_controller,
+      id_controller,
+      date_controller;
   bool loaded, loading;
   final format = DateFormat("dd/MM/yyyy");
   @override
@@ -30,6 +36,11 @@ class _LoginPageState extends State<LoginPage> {
       gender = "Male";
       loaded = false;
       loading = false;
+      f_controller = TextEditingController();
+      l_controller = TextEditingController();
+      p_controller = TextEditingController();
+      id_controller = TextEditingController();
+      date_controller = TextEditingController();
     });
     super.initState();
   }
@@ -96,31 +107,28 @@ class _LoginPageState extends State<LoginPage> {
                     } else if (state is LoginLoadedState) {
                       return Container(
                         height: height,
-                        child: AlertDialog(
-                          backgroundColor: Theme.of(context).accentColor,
-                          title: Text('Details Added',
-                              style: TextStyle(color: Colors.white)),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: <Widget>[
-                                Text("User data is updated",
-                                    style: TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Home',
-                                  style: TextStyle(color: Colors.white)),
-                              onPressed: () {
-                                Navigator.of(context).popAndPushNamed('/home');
-                              },
-                            ),
-                          ],
+                        child: MyAlertDialog(
+                          press: () =>
+                              Navigator.of(context).popAndPushNamed('/home'),
+                          message: "User data is updated",
+                          title: 'Details Added',
+                          buttonTitle: 'Home',
                         ),
                       );
+                    } else if (state is LoggedUserProfileState) {
+                      final user = state.user;
+                      setState(() {
+                        gender = user.gender;
+                      });
+                      f_controller = TextEditingController(text: user.fname);
+                      l_controller = TextEditingController(text: user.surname);
+                      p_controller = TextEditingController(text: user.phone);
+                      id_controller =
+                          TextEditingController(text: user.national_id);
+                      date_controller = TextEditingController(text: user.dob);
+                      return buildWidgets();
                     } else {
-                      return Container();
+                      return Container(color: Colors.white);
                     }
                   },
                 ),
@@ -150,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Enter your first name',
               hintStyle: kHintTextStyle,
             ),
+            controller: f_controller,
             onChanged: (value) {
               setState(() {
                 f_name = value;
@@ -171,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Enter your last name',
               hintStyle: kHintTextStyle,
             ),
+            controller: l_controller,
             onChanged: (value) {
               setState(() {
                 l_name = value;
@@ -192,6 +202,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Enter your phone number',
               hintStyle: kHintTextStyle,
             ),
+            controller: p_controller,
             keyboardType: TextInputType.number,
             onChanged: (value) {
               setState(() {
@@ -214,6 +225,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Enter your id',
               hintStyle: kHintTextStyle,
             ),
+            controller: id_controller,
             onChanged: (value) {
               setState(() {
                 id = value;
@@ -292,6 +304,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: 'Enter your date of birth',
               hintStyle: kHintTextStyle,
             ),
+            controller: date_controller,
             onShowPicker: (context, currentValue) {
               return showDatePicker(
                 context: context,

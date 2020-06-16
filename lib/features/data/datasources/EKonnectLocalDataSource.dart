@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:eKonnect/database/EkonnectInteractions.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +7,7 @@ import '../../../core/errors/Exceptions.dart';
 import '../../../core/location/GetUserLocation.dart';
 import '../../../core/util/Constants.dart';
 import '../../../core/util/GenerateUuid.dart';
+import '../../../database/EkonnectInteractions.dart';
 import '../models/CountriesModel.dart';
 import '../models/InteractionModel.dart';
 import '../models/UserProfileModel.dart';
@@ -21,6 +21,7 @@ abstract class EKonnectLocalDataSource {
   Future<List<CountriesModel>> getCountries();
   Future<List<InteractionModel>> getInteractions();
   Future<void> cacheInteractions(InteractionModel interactionModel);
+  Future<CountriesModel> getCountry(String country);
 }
 
 class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
@@ -83,16 +84,27 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
   }
 
   @override
-  Future<void> cacheCountries(List<CountriesModel> countriesModel) {}
-
-  @override
-  Future<List<CountriesModel>> getCountries() {}
-
-  @override
-  Future<void> cacheInteractions(InteractionModel interactionModel) {
-    return interactions.saveInteraction(interactionModel);
+  Future<void> cacheCountries(List<CountriesModel> countriesModel) async {
+    return await interactions.saveCountries(countriesModel);
   }
 
   @override
-  Future<List<InteractionModel>> getInteractions() {}
+  Future<List<CountriesModel>> getCountries() async {
+    return await interactions.getCountries();
+  }
+
+  @override
+  Future<void> cacheInteractions(InteractionModel interactionModel) async {
+    return await interactions.saveInteraction(interactionModel);
+  }
+
+  @override
+  Future<List<InteractionModel>> getInteractions() async {
+    return await interactions.getInteractions();
+  }
+
+  @override
+  Future<CountriesModel> getCountry(String country) async {
+    return await interactions.getCountry(country);
+  }
 }

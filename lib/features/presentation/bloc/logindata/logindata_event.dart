@@ -28,3 +28,8 @@ class LoginResetEvent extends LogindataEvent {
   @override
   List<Object> get props => [];
 }
+
+class CheckUserProfileEvent extends LogindataEvent {
+  @override
+  List<Object> get props => [];
+}
