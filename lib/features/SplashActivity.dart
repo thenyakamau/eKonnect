@@ -51,25 +51,24 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             );
           } else if (state is FirstTimeState) {
-            print("first time");
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.of(context).pushReplacementNamed('/intro'),
             );
-            return Container();
+            return Container(color: Colors.white);
           } else if (state is SplashLoginState) {
             print("login");
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.of(context).pushReplacementNamed('/login'),
             );
-            return Container();
+            return Container(color: Colors.white);
           } else if (state is SplashHomeState) {
             print("home");
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.of(context).pushReplacementNamed('/home'),
             );
-            return Container();
+            return Container(color: Colors.white);
           } else {
-            return Container();
+            return Container(color: Colors.white);
           }
         },
       ),

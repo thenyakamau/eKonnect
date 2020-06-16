@@ -232,6 +232,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  fancy_on_boarding:
+    dependency: "direct main"
+    description:
+      name: fancy_on_boarding
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.6.0"
   file:
     dependency: transitive
     description:
@@ -258,6 +265,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  flutter_bluetooth_serial:
+    dependency: "direct main"
+    description:
+      name: flutter_bluetooth_serial
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   flutter_stetho:
     dependency: "direct dev"
     description:

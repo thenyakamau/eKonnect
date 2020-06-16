@@ -1,8 +1,10 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/bluetooth/BlueTooth.dart';
 import 'core/location/GetUserLocation.dart';
 import 'core/network/NetworkInfo.dart';
 import 'core/util/AuthenticationChecker.dart';
@@ -22,7 +24,9 @@ import 'features/domain/usecases/GetCountryData.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
 import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
+import 'features/domain/usecases/TurnOnBlueTooth.dart';
 import 'features/presentation/bloc/dashboarddata/dashboarddata_bloc.dart';
+import 'features/presentation/bloc/homepagebloc/homepage_bloc.dart';
 import 'features/presentation/bloc/logindata/logindata_bloc.dart';
 import 'features/presentation/bloc/splashscreenbloc/splashscreen_bloc.dart';
 import 'features/presentation/bloc/statisticsdata/statisticsdata_bloc.dart';
@@ -35,6 +39,7 @@ Future<void> init() async {
   _initializeEKonnectRepository();
   _initializeStatistics();
   _initializeSplashScreen();
+  _initializeHome();
 
   //!core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -42,6 +47,9 @@ Future<void> init() async {
   sl.registerLazySingleton<UserLocation>(
       () => UserLocationImpl(location: sl()));
   sl.registerLazySingleton(() => CheckAppState(sharedPreferences: sl()));
+  sl.registerLazySingleton(() => BlueToothProvider(
+        bluetoothSerial: sl(),
+      ));
 
   //!External
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -51,7 +59,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Location());
   sl.registerLazySingleton<EKonnectInteractions>(
       () => EKonnectInteractionsImpl());
-  //sl.registerLazySingleton(() => Hive.openBox("ekonnectInteractions"));
+  sl.registerLazySingleton(() => FlutterBluetoothSerial.instance);
 }
 
 void _initializeEKonnectRepository() {
@@ -108,4 +116,9 @@ void _initializeSplashScreen() {
       () => SplashscreenBloc(checkFirstTime: sl(), checkLogin: sl()));
   sl.registerLazySingleton(() => CheckFirstTime(appState: sl()));
   sl.registerLazySingleton(() => CheckLogin(appState: sl()));
+}
+
+void _initializeHome() {
+  sl.registerFactory(() => HomepageBloc(turnOnBlueTooth: sl()));
+  sl.registerLazySingleton(() => TurnOnBlueTooth(blueToothProvider: sl()));
 }

@@ -66,6 +66,10 @@ dependencies:
   hive_flutter: ^0.3.0+2
   # For OS-specific directory paths
   path_provider: ^1.6.10
+  #bluetooth
+  flutter_bluetooth_serial: ^0.2.2
+  #onBoarding
+  fancy_on_boarding: ^1.6.0
 
 dev_dependencies:
   flutter_test:
