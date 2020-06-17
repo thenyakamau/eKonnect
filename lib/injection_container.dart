@@ -22,10 +22,12 @@ import 'features/domain/usecases/CheckLogin.dart';
 import 'features/domain/usecases/GetCountries.dart';
 import 'features/domain/usecases/GetCountryData.dart';
 import 'features/domain/usecases/GetDashBoardCache.dart';
+import 'features/domain/usecases/GetInteractionsCache.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
 import 'features/domain/usecases/GetUserProfile.dart';
 import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
+import 'features/domain/usecases/SaveInteraction.dart';
 import 'features/domain/usecases/TurnOnBlueTooth.dart';
 import 'features/presentation/bloc/dashboarddata/dashboarddata_bloc.dart';
 import 'features/presentation/bloc/homepagebloc/homepage_bloc.dart';
@@ -105,11 +107,15 @@ void _initializeLogin() {
 }
 
 void _initializeDashBoard() {
-  sl.registerFactory(
-      () => DashboarddataBloc(getCountryData: sl(), dashBoardCache: sl()));
+  sl.registerFactory(() => DashboarddataBloc(
+        getCountryData: sl(),
+        interactionsCache: sl(),
+        userProfile: sl(),
+      ));
   sl.registerLazySingleton(() => GetDashBoardCache(repository: sl()));
   sl.registerLazySingleton(() => GetCountryData(repository: sl()));
   sl.registerLazySingleton(() => GetUserCounty(eKonnectRepository: sl()));
+  sl.registerLazySingleton(() => GetInteractionsCache(repository: sl()));
 }
 
 void _initializeStatistics() {
@@ -126,5 +132,6 @@ void _initializeSplashScreen() {
 
 void _initializeHome() {
   sl.registerFactory(() => HomepageBloc(turnOnBlueTooth: sl()));
+  sl.registerLazySingleton(() => SaveInteraction(repository: sl()));
   sl.registerLazySingleton(() => TurnOnBlueTooth(blueToothProvider: sl()));
 }

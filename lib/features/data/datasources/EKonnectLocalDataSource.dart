@@ -100,6 +100,7 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
 
   @override
   Future<List<InteractionModel>> getInteractions() async {
+    print(await interactions.getInteractions());
     return await interactions.getInteractions();
   }
 

@@ -40,13 +40,23 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: <Widget>[
                   Expanded(
                     flex: 2,
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundColor: Colors.white,
-                      child: Image.asset("assets/images/logo.png"),
+                    child: Container(
+                      child: Center(
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(75),
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/logo.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  Expanded(child: LoadingWidget(height: height))
+                  LoadingWidget(height: height)
                 ],
               ),
             );

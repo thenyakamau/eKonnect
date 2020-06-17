@@ -4,3 +4,7 @@ export 'my_alert_dialog.dart';
 export 'custom_text.dart';
 export 'custom_page_model.dart';
 export 'blue_tooth_off_widget.dart';
+export 'counter_widget.dart';
+export 'my_header.dart';
+export 'prevention_card.dart';
+export 'symptoms_card.dart';

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:eKonnect/features/data/models/InteractionModel.dart';
+import 'package:eKonnect/features/domain/usecases/SaveInteraction.dart';
 import 'package:eKonnect/features/domain/usecases/TurnOnBlueTooth.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';

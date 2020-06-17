@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: Colors.purpleAccent,
     title: Text(
       "ekonnect",
       style: Theme.of(context)

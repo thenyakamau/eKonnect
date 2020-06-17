@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:eKonnect/features/domain/entities/Interactions.dart';
 
 import '../../../core/errors/Failures.dart';
 import '../../data/models/CountriesModel.dart';
@@ -17,5 +18,7 @@ abstract class EKonnectRepository {
       InteractionModel interactionModel);
   Future<Either<Failure, Countries>> getCountryData(String country);
   Future<Either<Failure, List>> getDashBoardCache();
+  Future<Either<Failure, Countries>> getCountryCache(String country);
   Future<Either<Failure, UserProfile>> getCacheUser();
+  Future<Either<Failure, List<Interaction>>> getCacheInteraction();
 }

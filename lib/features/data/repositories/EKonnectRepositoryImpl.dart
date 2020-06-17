@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:eKonnect/features/domain/entities/Interactions.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -122,6 +123,26 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
       final user = await localDataSource.getUserData();
       return Right(user);
     } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Countries>> getCountryCache(String country) async {
+    try {
+      final countryData = await localDataSource.getCountry(country);
+      return Right(countryData);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Interaction>>> getCacheInteraction() async {
+    try {
+      final interactionCache = await localDataSource.getInteractions();
+      return Right(interactionCache);
+    } catch (e) {
       return Left(CacheFailure());
     }
   }

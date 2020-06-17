@@ -1,6 +1,7 @@
 import 'package:eKonnect/features/data/models/CountriesModel.dart';
 import 'package:eKonnect/features/data/models/InteractionModel.dart';
 import 'package:hive/hive.dart';
+import 'package:meta/meta.dart';
 
 abstract class EKonnectInteractions {
   Future<void> saveInteraction(InteractionModel interactionModel);
@@ -20,8 +21,10 @@ class EKonnectInteractionsImpl implements EKonnectInteractions {
   @override
   Future<List<InteractionModel>> getInteractions() async {
     var interactionsBox = await Hive.openBox("EkonnectInteractions");
+
     final listsObject = interactionsBox.toMap();
     List<InteractionModel> interactionModel = listsObject.values.toList();
+    print(interactionModel[0]);
     return interactionModel;
   }
 

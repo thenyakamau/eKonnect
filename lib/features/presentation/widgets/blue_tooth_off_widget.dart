@@ -38,6 +38,7 @@ class BlueToothOffWidget extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,
+                  decoration: TextDecoration.none,
                 ),
               ),
             ),

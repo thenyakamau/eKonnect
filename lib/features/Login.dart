@@ -32,16 +32,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     bloc = sl<LogindataBloc>();
+
     setState(() {
       gender = "Male";
       loaded = false;
       loading = false;
+
       f_controller = TextEditingController();
       l_controller = TextEditingController();
       p_controller = TextEditingController();
       id_controller = TextEditingController();
       date_controller = TextEditingController();
     });
+    bloc.add(CheckUserProfileEvent());
     super.initState();
   }
 
@@ -51,13 +54,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.purpleAccent,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () => Navigator.of(context).pop()),
         title: Text(
           "ekonnect",
           style: Theme.of(context)
@@ -117,9 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     } else if (state is LoggedUserProfileState) {
                       final user = state.user;
-                      setState(() {
-                        gender = user.gender;
-                      });
+
+                      gender = user.gender;
                       f_controller = TextEditingController(text: user.fname);
                       l_controller = TextEditingController(text: user.surname);
                       p_controller = TextEditingController(text: user.phone);
