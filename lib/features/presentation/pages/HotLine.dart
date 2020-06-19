@@ -55,23 +55,28 @@ class _HotLinePageState extends State<HotLinePage> {
                 SizedBox(height: 20),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SymptomCard(
-                        image: "assets/images/headache.png",
-                        title: "Headache",
-                        isActive: true,
-                      ),
-                      SymptomCard(
-                        image: "assets/images/caugh.png",
-                        title: "Caugh",
-                      ),
-                      SymptomCard(
-                        image: "assets/images/fever.png",
-                        title: "Fever",
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SymptomCard(
+                          image: "assets/images/headache.png",
+                          title: "Headache",
+                          isActive: true,
+                        ),
+                        SizedBox(width: 10),
+                        SymptomCard(
+                          image: "assets/images/caugh.png",
+                          title: "Caugh",
+                        ),
+                        SizedBox(width: 10),
+                        SymptomCard(
+                          image: "assets/images/fever.png",
+                          title: "Fever",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),

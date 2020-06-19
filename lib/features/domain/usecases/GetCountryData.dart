@@ -1,10 +1,11 @@
-import 'package:eKonnect/core/errors/Failures.dart';
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/core/usecases/UseCases.dart';
-import 'package:eKonnect/features/domain/entities/Countries.dart';
-import 'package:eKonnect/features/domain/repositories/EKonnectRepository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
+import '../../../core/errors/Failures.dart';
+import '../../../core/usecases/UseCases.dart';
+import '../entities/Countries.dart';
+import '../repositories/EKonnectRepository.dart';
 
 class GetCountryData extends UseCase<Countries, CountryParams> {
   final EKonnectRepository repository;

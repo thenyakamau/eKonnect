@@ -16,7 +16,7 @@ class SymptomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.white,
@@ -36,7 +36,7 @@ class SymptomCard extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          Image.asset(image, height: 90),
+          Image.asset(image, height: 70),
           Text(
             title,
             style: TextStyle(fontWeight: FontWeight.bold),

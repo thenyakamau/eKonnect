@@ -7,6 +7,8 @@ import '../../../core/errors/Exceptions.dart';
 import '../../../core/location/GetUserLocation.dart';
 import '../../../core/util/Constants.dart';
 import '../../../core/util/GenerateUuid.dart';
+import '../../../database/EKonnectDAO.dart';
+import '../../../database/EKonnectDatabase.dart';
 import '../../../database/EkonnectInteractions.dart';
 import '../models/CountriesModel.dart';
 import '../models/InteractionModel.dart';
@@ -28,11 +30,13 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
   final SharedPreferences sharedPreferences;
   final UserLocation userLocation;
   final EKonnectInteractions interactions;
+  final EKonnectDao eKonnectDao;
 
   EKonnectLocalDataSourceImpl({
     @required this.sharedPreferences,
     @required this.userLocation,
     @required this.interactions,
+    @required this.eKonnectDao,
   });
 
   @override
@@ -69,11 +73,14 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
   @override
   Future<String> getUserCounty() async {
     String userLocationString = sharedPreferences.getString(CACHED_USER_COUNTY);
+
     if (userLocationString != null) {
       return Future.value(userLocationString);
     } else {
       try {
         userLocationString = await userLocation.getCounty();
+        await sharedPreferences.setString(
+            CACHED_USER_COUNTY, userLocationString);
         return Future.value(userLocationString);
       } on PermissionDeniedException {
         throw PermissionDeniedException();
@@ -85,12 +92,57 @@ class EKonnectLocalDataSourceImpl implements EKonnectLocalDataSource {
 
   @override
   Future<void> cacheCountries(List<CountriesModel> countriesModel) async {
-    return await interactions.saveCountries(countriesModel);
+    await eKonnectDao.deleteAll();
+    for (var i = 0; i < countriesModel.length; i++) {
+      try {
+        CountriesModel e = countriesModel[i];
+        CountriesTable countriesTable = CountriesTable(
+          country: e.country,
+          cases: e.cases,
+          todayCases: e.todayCases,
+          deaths: e.deaths,
+          todayDeaths: e.todayDeaths,
+          recovered: e.recovered,
+          active: e.active,
+          critical: e.critical,
+          casesPerOneMillion: e.casesPerOneMillion,
+          deathsPerOneMillion: e.deathsPerOneMillion,
+          totalTests: e.totalTests,
+          testsPerOneMillion: e.testsPerOneMillion,
+        );
+
+        await eKonnectDao.insertCountry(countriesTable);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 
   @override
   Future<List<CountriesModel>> getCountries() async {
-    return await interactions.getCountries();
+    List<CountriesTable> countriesObject = await eKonnectDao.getCountries();
+    List<CountriesModel> countries = [];
+
+    for (var i = 0; i < countriesObject.length; i++) {
+      CountriesTable e = countriesObject[i];
+      CountriesModel countriesModel = new CountriesModel(
+        country: e.country,
+        cases: e.cases,
+        todayCases: e.todayCases,
+        deaths: e.deaths,
+        todayDeaths: e.todayDeaths,
+        recovered: e.recovered,
+        active: e.active,
+        critical: e.critical,
+        casesPerOneMillion: e.casesPerOneMillion,
+        deathsPerOneMillion: e.deathsPerOneMillion,
+        totalTests: e.totalTests,
+        testsPerOneMillion: e.testsPerOneMillion,
+      );
+
+      countries.add(countriesModel);
+    }
+    return countries;
   }
 
   @override

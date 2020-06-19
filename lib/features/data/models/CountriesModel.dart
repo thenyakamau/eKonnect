@@ -1,37 +1,36 @@
-import 'package:hive/hive.dart';
+import 'package:eKonnect/features/domain/entities/Countries.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-import '../../domain/entities/Countries.dart';
+import '../../../database/EKonnectDatabase.dart';
 
 part 'CountriesModel.g.dart';
 
 @JsonSerializable()
-@HiveType(typeId: 0)
 class CountriesModel extends Countries {
-  @HiveField(0)
   final String country;
-  @HiveField(1)
+
   final int cases;
-  @HiveField(2)
+
   final int todayCases;
-  @HiveField(3)
+
   final int deaths;
-  @HiveField(4)
+
   final int todayDeaths;
-  @HiveField(5)
+
   final int recovered;
-  @HiveField(6)
+
   final int active;
-  @HiveField(7)
+
   final int critical;
-  @HiveField(8)
+
   final int casesPerOneMillion;
-  @HiveField(9)
+
   final int deathsPerOneMillion;
-  @HiveField(10)
+
   final int totalTests;
-  @HiveField(11)
+
   final int testsPerOneMillion;
 
   CountriesModel({
@@ -65,5 +64,23 @@ class CountriesModel extends Countries {
   factory CountriesModel.fromJson(Map<String, dynamic> json) =>
       _$CountriesModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CountriesModelToJson(this);
+  @override
+  List<Object> get props {
+    return [
+      country,
+      cases,
+      todayCases,
+      deaths,
+      todayDeaths,
+      recovered,
+      active,
+      critical,
+      casesPerOneMillion,
+      deathsPerOneMillion,
+      totalTests,
+      testsPerOneMillion
+    ];
+  }
+
+  //Map<String, dynamic> toJson() => _$CountriesModelToJson(this);
 }

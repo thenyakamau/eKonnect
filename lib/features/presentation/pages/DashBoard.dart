@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/util/Constants.dart';
 import '../../../injection_container.dart';
 import '../../domain/entities/Countries.dart';
 import '../../domain/entities/Interactions.dart';
@@ -17,7 +16,8 @@ class DashBoard extends StatefulWidget {
   _DashBoardState createState() => _DashBoardState();
 }
 
-class _DashBoardState extends State<DashBoard> {
+class _DashBoardState extends State<DashBoard>
+    with AutomaticKeepAliveClientMixin {
   DashboarddataBloc bloc;
   UserProfile user;
   Countries world;
@@ -66,8 +66,8 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   SingleChildScrollView buildSingleChildScrollView(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: <Widget>[
           MyHeader(
@@ -80,40 +80,6 @@ class _DashBoardState extends State<DashBoard> {
             width: double.infinity,
             child: Column(
               children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                //   child: Row(
-                //     children: <Widget>[
-                //       Container(
-                //         width: width / 3,
-                //         alignment: Alignment.topLeft,
-                //         color: Colors.blue[800],
-                //         child: Text(
-                //           "• WorldWide",
-                //           style: TextStyle(color: Colors.white),
-                //         ),
-                //       ),
-                //       SizedBox(height: 30),
-                //       Container(
-                //         width: width / 3,
-                //         alignment: Alignment.topRight,
-                //         color: Colors.red[200],
-                //         child: RichText(
-                //           text: TextSpan(
-                //             text: world != null
-                //                 ? "• Fatality rate:  " +
-                //                     (100 * world.deaths / world.cases)
-                //                         .toStringAsFixed(2) +
-                //                     "%"
-                //                 : '',
-                //             style: TextStyle(color: Colors.white),
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-
                 Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
@@ -389,4 +355,7 @@ class _DashBoardState extends State<DashBoard> {
     controller.dispose();
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

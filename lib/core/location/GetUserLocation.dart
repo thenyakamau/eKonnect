@@ -40,7 +40,7 @@ class UserLocationImpl implements UserLocation {
   Future<String> getCounty() async {
     // currentLocation = myLocation;
     myLocation = await _getPermissions();
-    print(myLocation.latitude);
+
     final coordinates =
         new Coordinates(myLocation.latitude, myLocation.longitude);
     var addresses =

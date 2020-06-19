@@ -25,8 +25,17 @@ class StatisticsdataLoadedState extends StatisticsdataState {
 
 class StatisticsdataErrorState extends StatisticsdataState {
   final String message;
+  final List<Countries> countries;
 
-  StatisticsdataErrorState({@required this.message});
+  StatisticsdataErrorState({@required this.message, @required this.countries});
+  @override
+  List<Object> get props => [message];
+}
+
+class StatisticsdataCacheErrorState extends StatisticsdataState {
+  final String message;
+
+  StatisticsdataCacheErrorState({@required this.message});
   @override
   List<Object> get props => [message];
 }

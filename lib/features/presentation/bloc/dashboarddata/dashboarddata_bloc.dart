@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eKonnect/features/domain/entities/Interactions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -10,6 +9,7 @@ import '../../../../core/usecases/UseCases.dart';
 import '../../../../core/util/Constants.dart';
 import '../../../data/models/InteractionModel.dart';
 import '../../../domain/entities/Countries.dart';
+import '../../../domain/entities/Interactions.dart';
 import '../../../domain/entities/UserProfile.dart';
 import '../../../domain/usecases/GetCountryData.dart';
 import '../../../domain/usecases/GetInteractionsCache.dart';

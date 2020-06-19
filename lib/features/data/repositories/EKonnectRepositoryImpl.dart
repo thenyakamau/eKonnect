@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:eKonnect/features/domain/entities/Interactions.dart';
 import 'package:meta/meta.dart';
 
 import '../../../core/errors/Exceptions.dart';
@@ -7,12 +6,12 @@ import '../../../core/errors/Failures.dart';
 import '../../../core/network/NetworkInfo.dart';
 import '../../domain/entities/ApiSuccess.dart';
 import '../../domain/entities/Countries.dart';
+import '../../domain/entities/Interactions.dart';
 import '../../domain/entities/UserProfile.dart';
 import '../../domain/repositories/EKonnectRepository.dart';
 import '../datasources/EKonnectLocalDataSource.dart';
 import '../datasources/EKonnectRemoteDataSource.dart';
 import '../datasources/VsoftRemoteDataSource.dart';
-import '../models/CountriesModel.dart';
 import '../models/InteractionModel.dart';
 import '../models/UserProfileModel.dart';
 
@@ -60,11 +59,12 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
   }
 
   @override
-  Future<Either<Failure, List<CountriesModel>>> getCountries() async {
+  Future<Either<Failure, List<Countries>>> getCountries() async {
     if (await networkInfo.isConnected) {
       try {
         final response = await eKonnectRemoteDataSource.getCountriesData();
-        localDataSource.cacheCountries(response);
+        await localDataSource.cacheCountries(response);
+
         return Right(response);
       } on ServerException {
         return Left(ServerFailure());
@@ -142,6 +142,20 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
     try {
       final interactionCache = await localDataSource.getInteractions();
       return Right(interactionCache);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Countries>>> getCountriesCache() async {
+    try {
+      final response = await localDataSource.getCountries();
+      if (response != null) {
+        return Right(response);
+      } else {
+        return Left(CacheFailure());
+      }
     } catch (e) {
       return Left(CacheFailure());
     }

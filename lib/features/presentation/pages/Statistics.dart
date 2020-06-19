@@ -1,4 +1,5 @@
 import 'package:eKonnect/features/data/models/CountriesModel.dart';
+import 'package:eKonnect/features/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,8 @@ class StatisticsPage extends StatefulWidget {
   _StatisticsPageState createState() => _StatisticsPageState();
 }
 
-class _StatisticsPageState extends State<StatisticsPage> {
+class _StatisticsPageState extends State<StatisticsPage>
+    with AutomaticKeepAliveClientMixin {
   StatisticsdataBloc bloc;
 
   @override
@@ -37,9 +39,12 @@ class _StatisticsPageState extends State<StatisticsPage> {
           } else if (state is StatisticsdataLoadedState) {
             return _buildPost(context, state.countries);
           } else if (state is StatisticsdataErrorState) {
+            print(state.countries);
+            return _buildPost(context, state.countries);
+          } else if (state is StatisticsdataCacheErrorState) {
             return Center(child: Text(state.message));
           } else {
-            return null;
+            return Container();
           }
         },
       ),
@@ -154,4 +159,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

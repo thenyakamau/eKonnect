@@ -1,8 +1,7 @@
-import 'package:eKonnect/features/Login.dart';
-import 'package:eKonnect/features/presentation/widgets/login_widgets/login_controller.dart';
-import 'package:eKonnect/features/presentation/widgets/widgets.dart';
 import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/widgets.dart';
 
 class IntroStatePage extends StatelessWidget {
   final Function press;

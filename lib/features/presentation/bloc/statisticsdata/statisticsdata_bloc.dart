@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eKonnect/core/errors/Failures.dart';
-import 'package:eKonnect/core/util/Constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/errors/Failures.dart';
 import '../../../../core/usecases/UseCases.dart';
+import '../../../../core/util/Constants.dart';
 import '../../../domain/entities/Countries.dart';
 import '../../../domain/usecases/GetCountries.dart';
+import '../../../domain/usecases/GetCountriesCache.dart';
 
 part 'statisticsdata_event.dart';
 part 'statisticsdata_state.dart';
@@ -16,8 +17,10 @@ part 'statisticsdata_state.dart';
 class StatisticsdataBloc
     extends Bloc<StatisticsdataEvent, StatisticsdataState> {
   final GetCountries getCountries;
+  final GetCountriesCache getCountriesCache;
 
-  StatisticsdataBloc({@required this.getCountries});
+  StatisticsdataBloc(
+      {@required this.getCountries, @required this.getCountriesCache});
   @override
   StatisticsdataState get initialState => StatisticsdataInitial();
 
@@ -30,7 +33,14 @@ class StatisticsdataBloc
 
       final countriesEither = await getCountries(NoParams());
       yield* countriesEither.fold((failure) async* {
-        yield StatisticsdataErrorState(message: _mapFailureToMessage(failure));
+        final cacheCountriesEither = await getCountriesCache(NoParams());
+        yield* cacheCountriesEither.fold((failure) async* {
+          yield StatisticsdataCacheErrorState(
+              message: _mapFailureToMessage(failure));
+        }, (countries) async* {
+          yield StatisticsdataErrorState(
+              message: _mapFailureToMessage(failure), countries: countries);
+        });
       }, (countries) async* {
         yield StatisticsdataLoadedState(countries: countries);
       });

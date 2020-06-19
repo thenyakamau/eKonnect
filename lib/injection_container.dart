@@ -9,6 +9,7 @@ import 'core/location/GetUserLocation.dart';
 import 'core/network/NetworkInfo.dart';
 import 'core/util/AuthenticationChecker.dart';
 import 'core/util/CheckAppState.dart';
+import 'database/EKonnectDatabase.dart';
 import 'database/EkonnectInteractions.dart';
 import 'features/data/datasources/EKonnectApiService.dart';
 import 'features/data/datasources/EKonnectLocalDataSource.dart';
@@ -20,6 +21,7 @@ import 'features/domain/repositories/EKonnectRepository.dart';
 import 'features/domain/usecases/CheckFirstTime.dart';
 import 'features/domain/usecases/CheckLogin.dart';
 import 'features/domain/usecases/GetCountries.dart';
+import 'features/domain/usecases/GetCountriesCache.dart';
 import 'features/domain/usecases/GetCountryData.dart';
 import 'features/domain/usecases/GetDashBoardCache.dart';
 import 'features/domain/usecases/GetInteractionsCache.dart';
@@ -64,6 +66,7 @@ Future<void> init() async {
   sl.registerLazySingleton<EKonnectInteractions>(
       () => EKonnectInteractionsImpl());
   sl.registerLazySingleton(() => FlutterBluetoothSerial.instance);
+  sl.registerLazySingleton(() => EKonnectDatabase().eKonnectDao);
 }
 
 void _initializeEKonnectRepository() {
@@ -77,7 +80,11 @@ void _initializeEKonnectRepository() {
   );
   sl.registerLazySingleton<EKonnectLocalDataSource>(() {
     return EKonnectLocalDataSourceImpl(
-        sharedPreferences: sl(), userLocation: sl(), interactions: sl());
+      sharedPreferences: sl(),
+      userLocation: sl(),
+      interactions: sl(),
+      eKonnectDao: sl(),
+    );
   });
   sl.registerLazySingleton<EKonnectRemoteDataSource>(
       () => EKonnectRemoteDataSourceImpl(eKonnectApiService: sl()));
@@ -119,8 +126,10 @@ void _initializeDashBoard() {
 }
 
 void _initializeStatistics() {
-  sl.registerFactory(() => StatisticsdataBloc(getCountries: sl()));
+  sl.registerFactory(
+      () => StatisticsdataBloc(getCountries: sl(), getCountriesCache: sl()));
   sl.registerLazySingleton(() => GetCountries(eKonnectRepository: sl()));
+  sl.registerLazySingleton(() => GetCountriesCache(repository: sl()));
 }
 
 void _initializeSplashScreen() {
