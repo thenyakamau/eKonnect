@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../core/usecases/UseCases.dart';
 import '../../../domain/usecases/CheckFirstTime.dart';
 import '../../../domain/usecases/CheckLogin.dart';
+import '../../../domain/usecases/GetUserCounty.dart';
 
 part 'splashscreen_event.dart';
 part 'splashscreen_state.dart';
@@ -14,7 +17,10 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
   final CheckFirstTime checkFirstTime;
   final CheckLogin checkLogin;
 
-  SplashscreenBloc({@required this.checkFirstTime, @required this.checkLogin});
+  SplashscreenBloc({
+    @required this.checkFirstTime,
+    @required this.checkLogin,
+  });
 
   @override
   SplashscreenState get initialState => SplashscreenInitial();
@@ -37,7 +43,13 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
         }
       }
     } else if (event is ScrollIntroPages) {
-      yield SplashTermsPageState();
+      var locationPermission = await Permission.location.request();
+
+      if (locationPermission.isGranted) {
+        yield SplashTermsPageState();
+      } else {
+        yield SplashPermissionDeniedState();
+      }
     }
   }
 }

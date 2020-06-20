@@ -8,11 +8,13 @@ import '../errors/Exceptions.dart';
 abstract class UserLocation {
   Future<String> getCounty();
   Future<Coordinates> getUserLocation();
+  Future<bool> serviceEnabled();
 }
 
 class UserLocationImpl implements UserLocation {
   LocationData myLocation;
   String error;
+
   final Location location;
 
   UserLocationImpl({@required this.location});
@@ -33,6 +35,7 @@ class UserLocationImpl implements UserLocation {
       }
       myLocation = null;
     }
+
     return myLocation;
   }
 
@@ -57,5 +60,20 @@ class UserLocationImpl implements UserLocation {
     final coordinates =
         new Coordinates(myLocation.latitude, myLocation.longitude);
     return coordinates;
+  }
+
+  @override
+  Future<bool> serviceEnabled() async {
+    var _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
 }

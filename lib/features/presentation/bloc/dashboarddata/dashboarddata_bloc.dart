@@ -9,8 +9,8 @@ import '../../../../core/usecases/UseCases.dart';
 import '../../../../core/util/Constants.dart';
 import '../../../data/models/InteractionModel.dart';
 import '../../../domain/entities/Countries.dart';
-import '../../../domain/entities/Interactions.dart';
 import '../../../domain/entities/UserProfile.dart';
+import '../../../domain/usecases/GetCountryCache.dart';
 import '../../../domain/usecases/GetCountryData.dart';
 import '../../../domain/usecases/GetInteractionsCache.dart';
 import '../../../domain/usecases/GetUserProfile.dart';
@@ -22,12 +22,13 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
   final GetCountryData getCountryData;
   final GetUserProfile userProfile;
   final GetInteractionsCache interactionsCache;
+  final GetCountryCache countryCache;
 
-  DashboarddataBloc({
-    @required this.getCountryData,
-    @required this.userProfile,
-    @required this.interactionsCache,
-  });
+  DashboarddataBloc(
+      {@required this.getCountryData,
+      @required this.userProfile,
+      @required this.interactionsCache,
+      @required this.countryCache});
 
   @override
   DashboarddataState get initialState => DashboarddataInitial();
@@ -37,6 +38,7 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
     DashboarddataEvent event,
   ) async* {
     if (event is GetDashBoardData) {
+      yield DashboarddataLoadingState();
       final user = await userProfile(NoParams());
 
       yield* user.fold((failure) async* {
@@ -44,32 +46,46 @@ class DashboarddataBloc extends Bloc<DashboarddataEvent, DashboarddataState> {
       }, (profile) async* {
         final interactionCacheEither = await interactionsCache(NoParams());
 
-        // yield* interactionCacheEither.fold((failure) async* {
-        //   print("error");
-        //   yield DashboarddataLoadingState();
-        // }, (interactions) async* {
-
-        // });
-        yield DashboarddataLoadingState();
-        List<Interaction> interactions;
-
-        final worldEither =
-            await getCountryData(CountryParams(country: "World"));
-        yield* worldEither.fold((failure) async* {
+        yield* interactionCacheEither.fold((failure) async* {
           yield DashboarddataErrorState(message: _mapFailureToMessage(failure));
-        }, (world) async* {
-          final kenyanEither =
-              await getCountryData(CountryParams(country: "kenya"));
-          yield* kenyanEither.fold((failure) async* {
-            yield DashboarddataErrorState(
-                message: _mapFailureToMessage(failure));
-          }, (country) async* {
-            yield DashboarddataLoadedState(
-              world: world,
-              kenya: country,
-              userProfile: profile,
-              interactions: interactions,
-            );
+        }, (interactions) async* {
+          final worldEither =
+              await getCountryData(CountryParams(country: "World"));
+          yield* worldEither.fold((failure) async* {
+            final worldEitherCache =
+                await countryCache(CountryCacheParam(country: "World"));
+            yield* worldEitherCache.fold((failure) async* {
+              yield DashboarddataErrorState(
+                  message: _mapFailureToMessage(failure));
+            }, (world) async* {
+              final kenyaEitherCache =
+                  await countryCache(CountryCacheParam(country: "Kenya"));
+              yield* kenyaEitherCache.fold((failure) async* {
+                yield DashboarddataErrorState(
+                    message: _mapFailureToMessage(failure));
+              }, (country) async* {
+                yield DashboarddataLoadedState(
+                  world: world,
+                  kenya: country,
+                  userProfile: profile,
+                  interactions: interactions,
+                );
+              });
+            });
+          }, (world) async* {
+            final kenyanEither =
+                await getCountryData(CountryParams(country: "kenya"));
+            yield* kenyanEither.fold((failure) async* {
+              yield DashboarddataErrorState(
+                  message: _mapFailureToMessage(failure));
+            }, (country) async* {
+              yield DashboarddataLoadedState(
+                world: world,
+                kenya: country,
+                userProfile: profile,
+                interactions: interactions,
+              );
+            });
           });
         });
       });

@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
           if (state is SplashscreenInitial) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.purple,
+                color: Theme.of(context).primaryColor,
               ),
               child: Column(
                 children: <Widget>[
@@ -70,15 +70,15 @@ class _SplashScreenState extends State<SplashScreen> {
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.of(context).pushReplacementNamed('/login'),
             );
-            return Container(color: Colors.white);
+            return Container(color: Theme.of(context).primaryColor);
           } else if (state is SplashHomeState) {
             print("home");
             WidgetsBinding.instance.addPostFrameCallback(
               (_) => Navigator.of(context).pushReplacementNamed('/home'),
             );
-            return Container(color: Colors.white);
+            return Container(color: Theme.of(context).primaryColor);
           } else {
-            return Container(color: Colors.white);
+            return Container(color: Theme.of(context).primaryColor);
           }
         },
       ),

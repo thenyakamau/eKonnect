@@ -675,16 +675,396 @@ class $EKonnectCountriesTableTable extends EKonnectCountriesTable
   }
 }
 
+class InteractionsTable extends DataClass
+    implements Insertable<InteractionsTable> {
+  final String date;
+  final String from_contact;
+  final String to_contact;
+  final String location;
+  final String latitude;
+  final String longtitude;
+  InteractionsTable(
+      {@required this.date,
+      @required this.from_contact,
+      @required this.to_contact,
+      @required this.location,
+      @required this.latitude,
+      @required this.longtitude});
+  factory InteractionsTable.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final stringType = db.typeSystem.forDartType<String>();
+    return InteractionsTable(
+      date: stringType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      from_contact: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}from_contact']),
+      to_contact: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}to_contact']),
+      location: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}location']),
+      latitude: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
+      longtitude: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}longtitude']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<String>(date);
+    }
+    if (!nullToAbsent || from_contact != null) {
+      map['from_contact'] = Variable<String>(from_contact);
+    }
+    if (!nullToAbsent || to_contact != null) {
+      map['to_contact'] = Variable<String>(to_contact);
+    }
+    if (!nullToAbsent || location != null) {
+      map['location'] = Variable<String>(location);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<String>(latitude);
+    }
+    if (!nullToAbsent || longtitude != null) {
+      map['longtitude'] = Variable<String>(longtitude);
+    }
+    return map;
+  }
+
+  EKonnectInteractionsTableCompanion toCompanion(bool nullToAbsent) {
+    return EKonnectInteractionsTableCompanion(
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      from_contact: from_contact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(from_contact),
+      to_contact: to_contact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(to_contact),
+      location: location == null && nullToAbsent
+          ? const Value.absent()
+          : Value(location),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longtitude: longtitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longtitude),
+    );
+  }
+
+  factory InteractionsTable.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return InteractionsTable(
+      date: serializer.fromJson<String>(json['date']),
+      from_contact: serializer.fromJson<String>(json['from_contact']),
+      to_contact: serializer.fromJson<String>(json['to_contact']),
+      location: serializer.fromJson<String>(json['location']),
+      latitude: serializer.fromJson<String>(json['latitude']),
+      longtitude: serializer.fromJson<String>(json['longtitude']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'date': serializer.toJson<String>(date),
+      'from_contact': serializer.toJson<String>(from_contact),
+      'to_contact': serializer.toJson<String>(to_contact),
+      'location': serializer.toJson<String>(location),
+      'latitude': serializer.toJson<String>(latitude),
+      'longtitude': serializer.toJson<String>(longtitude),
+    };
+  }
+
+  InteractionsTable copyWith(
+          {String date,
+          String from_contact,
+          String to_contact,
+          String location,
+          String latitude,
+          String longtitude}) =>
+      InteractionsTable(
+        date: date ?? this.date,
+        from_contact: from_contact ?? this.from_contact,
+        to_contact: to_contact ?? this.to_contact,
+        location: location ?? this.location,
+        latitude: latitude ?? this.latitude,
+        longtitude: longtitude ?? this.longtitude,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('InteractionsTable(')
+          ..write('date: $date, ')
+          ..write('from_contact: $from_contact, ')
+          ..write('to_contact: $to_contact, ')
+          ..write('location: $location, ')
+          ..write('latitude: $latitude, ')
+          ..write('longtitude: $longtitude')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      date.hashCode,
+      $mrjc(
+          from_contact.hashCode,
+          $mrjc(
+              to_contact.hashCode,
+              $mrjc(location.hashCode,
+                  $mrjc(latitude.hashCode, longtitude.hashCode))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is InteractionsTable &&
+          other.date == this.date &&
+          other.from_contact == this.from_contact &&
+          other.to_contact == this.to_contact &&
+          other.location == this.location &&
+          other.latitude == this.latitude &&
+          other.longtitude == this.longtitude);
+}
+
+class EKonnectInteractionsTableCompanion
+    extends UpdateCompanion<InteractionsTable> {
+  final Value<String> date;
+  final Value<String> from_contact;
+  final Value<String> to_contact;
+  final Value<String> location;
+  final Value<String> latitude;
+  final Value<String> longtitude;
+  const EKonnectInteractionsTableCompanion({
+    this.date = const Value.absent(),
+    this.from_contact = const Value.absent(),
+    this.to_contact = const Value.absent(),
+    this.location = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longtitude = const Value.absent(),
+  });
+  EKonnectInteractionsTableCompanion.insert({
+    @required String date,
+    @required String from_contact,
+    @required String to_contact,
+    @required String location,
+    @required String latitude,
+    @required String longtitude,
+  })  : date = Value(date),
+        from_contact = Value(from_contact),
+        to_contact = Value(to_contact),
+        location = Value(location),
+        latitude = Value(latitude),
+        longtitude = Value(longtitude);
+  static Insertable<InteractionsTable> custom({
+    Expression<String> date,
+    Expression<String> from_contact,
+    Expression<String> to_contact,
+    Expression<String> location,
+    Expression<String> latitude,
+    Expression<String> longtitude,
+  }) {
+    return RawValuesInsertable({
+      if (date != null) 'date': date,
+      if (from_contact != null) 'from_contact': from_contact,
+      if (to_contact != null) 'to_contact': to_contact,
+      if (location != null) 'location': location,
+      if (latitude != null) 'latitude': latitude,
+      if (longtitude != null) 'longtitude': longtitude,
+    });
+  }
+
+  EKonnectInteractionsTableCompanion copyWith(
+      {Value<String> date,
+      Value<String> from_contact,
+      Value<String> to_contact,
+      Value<String> location,
+      Value<String> latitude,
+      Value<String> longtitude}) {
+    return EKonnectInteractionsTableCompanion(
+      date: date ?? this.date,
+      from_contact: from_contact ?? this.from_contact,
+      to_contact: to_contact ?? this.to_contact,
+      location: location ?? this.location,
+      latitude: latitude ?? this.latitude,
+      longtitude: longtitude ?? this.longtitude,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (from_contact.present) {
+      map['from_contact'] = Variable<String>(from_contact.value);
+    }
+    if (to_contact.present) {
+      map['to_contact'] = Variable<String>(to_contact.value);
+    }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<String>(latitude.value);
+    }
+    if (longtitude.present) {
+      map['longtitude'] = Variable<String>(longtitude.value);
+    }
+    return map;
+  }
+}
+
+class $EKonnectInteractionsTableTable extends EKonnectInteractionsTable
+    with TableInfo<$EKonnectInteractionsTableTable, InteractionsTable> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $EKonnectInteractionsTableTable(this._db, [this._alias]);
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  GeneratedTextColumn _date;
+  @override
+  GeneratedTextColumn get date => _date ??= _constructDate();
+  GeneratedTextColumn _constructDate() {
+    return GeneratedTextColumn('date', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _from_contactMeta =
+      const VerificationMeta('from_contact');
+  GeneratedTextColumn _from_contact;
+  @override
+  GeneratedTextColumn get from_contact =>
+      _from_contact ??= _constructFromContact();
+  GeneratedTextColumn _constructFromContact() {
+    return GeneratedTextColumn('from_contact', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _to_contactMeta = const VerificationMeta('to_contact');
+  GeneratedTextColumn _to_contact;
+  @override
+  GeneratedTextColumn get to_contact => _to_contact ??= _constructToContact();
+  GeneratedTextColumn _constructToContact() {
+    return GeneratedTextColumn('to_contact', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _locationMeta = const VerificationMeta('location');
+  GeneratedTextColumn _location;
+  @override
+  GeneratedTextColumn get location => _location ??= _constructLocation();
+  GeneratedTextColumn _constructLocation() {
+    return GeneratedTextColumn('location', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
+  GeneratedTextColumn _latitude;
+  @override
+  GeneratedTextColumn get latitude => _latitude ??= _constructLatitude();
+  GeneratedTextColumn _constructLatitude() {
+    return GeneratedTextColumn('latitude', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  final VerificationMeta _longtitudeMeta = const VerificationMeta('longtitude');
+  GeneratedTextColumn _longtitude;
+  @override
+  GeneratedTextColumn get longtitude => _longtitude ??= _constructLongtitude();
+  GeneratedTextColumn _constructLongtitude() {
+    return GeneratedTextColumn('longtitude', $tableName, false,
+        minTextLength: 1, maxTextLength: 50);
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [date, from_contact, to_contact, location, latitude, longtitude];
+  @override
+  $EKonnectInteractionsTableTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'e_konnect_interactions_table';
+  @override
+  final String actualTableName = 'e_konnect_interactions_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<InteractionsTable> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('from_contact')) {
+      context.handle(
+          _from_contactMeta,
+          from_contact.isAcceptableOrUnknown(
+              data['from_contact'], _from_contactMeta));
+    } else if (isInserting) {
+      context.missing(_from_contactMeta);
+    }
+    if (data.containsKey('to_contact')) {
+      context.handle(
+          _to_contactMeta,
+          to_contact.isAcceptableOrUnknown(
+              data['to_contact'], _to_contactMeta));
+    } else if (isInserting) {
+      context.missing(_to_contactMeta);
+    }
+    if (data.containsKey('location')) {
+      context.handle(_locationMeta,
+          location.isAcceptableOrUnknown(data['location'], _locationMeta));
+    } else if (isInserting) {
+      context.missing(_locationMeta);
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude'], _latitudeMeta));
+    } else if (isInserting) {
+      context.missing(_latitudeMeta);
+    }
+    if (data.containsKey('longtitude')) {
+      context.handle(
+          _longtitudeMeta,
+          longtitude.isAcceptableOrUnknown(
+              data['longtitude'], _longtitudeMeta));
+    } else if (isInserting) {
+      context.missing(_longtitudeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  InteractionsTable map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return InteractionsTable.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $EKonnectInteractionsTableTable createAlias(String alias) {
+    return $EKonnectInteractionsTableTable(_db, alias);
+  }
+}
+
 abstract class _$EKonnectDatabase extends GeneratedDatabase {
   _$EKonnectDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $EKonnectCountriesTableTable _eKonnectCountriesTable;
   $EKonnectCountriesTableTable get eKonnectCountriesTable =>
       _eKonnectCountriesTable ??= $EKonnectCountriesTableTable(this);
+  $EKonnectInteractionsTableTable _eKonnectInteractionsTable;
+  $EKonnectInteractionsTableTable get eKonnectInteractionsTable =>
+      _eKonnectInteractionsTable ??= $EKonnectInteractionsTableTable(this);
   EKonnectDao _eKonnectDao;
   EKonnectDao get eKonnectDao =>
       _eKonnectDao ??= EKonnectDao(this as EKonnectDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [eKonnectCountriesTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [eKonnectCountriesTable, eKonnectInteractionsTable];
 }

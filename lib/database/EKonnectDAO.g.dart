@@ -9,4 +9,6 @@ part of 'EKonnectDAO.dart';
 mixin _$EKonnectDaoMixin on DatabaseAccessor<EKonnectDatabase> {
   $EKonnectCountriesTableTable get eKonnectCountriesTable =>
       attachedDatabase.eKonnectCountriesTable;
+  $EKonnectInteractionsTableTable get eKonnectInteractionsTable =>
+      attachedDatabase.eKonnectInteractionsTable;
 }

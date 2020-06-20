@@ -80,7 +80,7 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
     if (await networkInfo.isConnected) {
       try {
         final response = await remoteDataSource.logContact(interactionModel);
-        localDataSource.cacheInteractions(interactionModel);
+        await localDataSource.cacheInteractions(interactionModel);
         return Right(response);
       } on ServerException {
         return Left(ServerFailure());
@@ -101,19 +101,6 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
       }
     } else {
       return Left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List>> getDashBoardCache() async {
-    try {
-      final user = await localDataSource.getUserData();
-      final world = await localDataSource.getCountry("World");
-      final kenya = await localDataSource.getCountry("Kenya");
-      final interactions = await localDataSource.getInteractions();
-      return Right([user, world, kenya, interactions]);
-    } catch (e) {
-      return Left(CacheFailure());
     }
   }
 
@@ -140,6 +127,7 @@ class EKonnectRepositoryImpl implements EKonnectRepository {
   @override
   Future<Either<Failure, List<Interaction>>> getCacheInteraction() async {
     try {
+      //print("something is sus");
       final interactionCache = await localDataSource.getInteractions();
       return Right(interactionCache);
     } catch (e) {

@@ -1,4 +1,5 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:eKonnect/features/domain/usecases/ServiceOn.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
@@ -10,7 +11,6 @@ import 'core/network/NetworkInfo.dart';
 import 'core/util/AuthenticationChecker.dart';
 import 'core/util/CheckAppState.dart';
 import 'database/EKonnectDatabase.dart';
-import 'database/EkonnectInteractions.dart';
 import 'features/data/datasources/EKonnectApiService.dart';
 import 'features/data/datasources/EKonnectLocalDataSource.dart';
 import 'features/data/datasources/EKonnectRemoteDataSource.dart';
@@ -22,8 +22,8 @@ import 'features/domain/usecases/CheckFirstTime.dart';
 import 'features/domain/usecases/CheckLogin.dart';
 import 'features/domain/usecases/GetCountries.dart';
 import 'features/domain/usecases/GetCountriesCache.dart';
+import 'features/domain/usecases/GetCountryCache.dart';
 import 'features/domain/usecases/GetCountryData.dart';
-import 'features/domain/usecases/GetDashBoardCache.dart';
 import 'features/domain/usecases/GetInteractionsCache.dart';
 import 'features/domain/usecases/GetUserCounty.dart';
 import 'features/domain/usecases/GetUserProfile.dart';
@@ -63,8 +63,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => prefs);
   sl.registerLazySingleton(() => DataConnectionChecker());
   sl.registerLazySingleton(() => Location());
-  sl.registerLazySingleton<EKonnectInteractions>(
-      () => EKonnectInteractionsImpl());
+
   sl.registerLazySingleton(() => FlutterBluetoothSerial.instance);
   sl.registerLazySingleton(() => EKonnectDatabase().eKonnectDao);
 }
@@ -82,8 +81,8 @@ void _initializeEKonnectRepository() {
     return EKonnectLocalDataSourceImpl(
       sharedPreferences: sl(),
       userLocation: sl(),
-      interactions: sl(),
       eKonnectDao: sl(),
+      blueToothProvider: sl(),
     );
   });
   sl.registerLazySingleton<EKonnectRemoteDataSource>(
@@ -100,13 +99,14 @@ void _initializeEKonnectRepository() {
 void _initializeLogin() {
   sl.registerFactory(
     () => LogindataBloc(
-      checkAuthentication: sl(),
-      loginUser: sl(),
-      getUUid: sl(),
-      getUserCounty: sl(),
-      userProfile: sl(),
-    ),
+        checkAuthentication: sl(),
+        loginUser: sl(),
+        getUUid: sl(),
+        getUserCounty: sl(),
+        userProfile: sl(),
+        serviceOn: sl()),
   );
+  sl.registerLazySingleton(() => ServiceOn(sl()));
   sl.registerLazySingleton(() => GetUserProfile(repository: sl()));
 
   sl.registerLazySingleton(() => LoginUser(repository: sl()));
@@ -114,12 +114,14 @@ void _initializeLogin() {
 }
 
 void _initializeDashBoard() {
-  sl.registerFactory(() => DashboarddataBloc(
+  sl.registerFactory(
+    () => DashboarddataBloc(
         getCountryData: sl(),
         interactionsCache: sl(),
         userProfile: sl(),
-      ));
-  sl.registerLazySingleton(() => GetDashBoardCache(repository: sl()));
+        countryCache: sl()),
+  );
+  sl.registerLazySingleton(() => GetCountryCache(repository: sl()));
   sl.registerLazySingleton(() => GetCountryData(repository: sl()));
   sl.registerLazySingleton(() => GetUserCounty(eKonnectRepository: sl()));
   sl.registerLazySingleton(() => GetInteractionsCache(repository: sl()));
@@ -134,7 +136,11 @@ void _initializeStatistics() {
 
 void _initializeSplashScreen() {
   sl.registerFactory(
-      () => SplashscreenBloc(checkFirstTime: sl(), checkLogin: sl()));
+    () => SplashscreenBloc(
+      checkFirstTime: sl(),
+      checkLogin: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => CheckFirstTime(appState: sl()));
   sl.registerLazySingleton(() => CheckLogin(appState: sl()));
 }

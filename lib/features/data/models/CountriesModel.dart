@@ -1,9 +1,7 @@
-import 'package:eKonnect/features/domain/entities/Countries.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
-import '../../../database/EKonnectDatabase.dart';
+import '../../domain/entities/Countries.dart';
 
 part 'CountriesModel.g.dart';
 
@@ -82,5 +80,5 @@ class CountriesModel extends Countries {
     ];
   }
 
-  //Map<String, dynamic> toJson() => _$CountriesModelToJson(this);
+  Map<String, dynamic> toJson() => _$CountriesModelToJson(this);
 }

@@ -16,7 +16,6 @@ abstract class EKonnectRepository {
   Future<Either<Failure, ApiSuccess>> saveInteractions(
       InteractionModel interactionModel);
   Future<Either<Failure, Countries>> getCountryData(String country);
-  Future<Either<Failure, List>> getDashBoardCache();
   Future<Either<Failure, Countries>> getCountryCache(String country);
   Future<Either<Failure, List<Countries>>> getCountriesCache();
   Future<Either<Failure, UserProfile>> getCacheUser();

@@ -16,6 +16,7 @@ import '../../../domain/usecases/GetUserCounty.dart';
 import '../../../domain/usecases/GetUserProfile.dart';
 import '../../../domain/usecases/GetUuid.dart';
 import '../../../domain/usecases/LoginUser.dart';
+import '../../../domain/usecases/ServiceOn.dart';
 
 part 'logindata_event.dart';
 part 'logindata_state.dart';
@@ -26,8 +27,10 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
   final GetUUid getUUid;
   final GetUserCounty getUserCounty;
   final GetUserProfile userProfile;
+  final ServiceOn serviceOn;
 
   LogindataBloc({
+    @required this.serviceOn,
     @required this.checkAuthentication,
     @required this.loginUser,
     @required this.getUUid,
@@ -78,12 +81,17 @@ class LogindataBloc extends Bloc<LogindataEvent, LogindataState> {
     } else if (event is LoginResetEvent) {
       yield LogindataInitial();
     } else if (event is CheckUserProfileEvent) {
-      final user = await userProfile(NoParams());
-      yield* user.fold((failure) async* {
-        yield LogindataInitial();
-      }, (user) async* {
-        yield LoggedUserProfileState(user: user);
-      });
+      final locationOn = await serviceOn();
+      if (locationOn) {
+        final user = await userProfile(NoParams());
+        yield* user.fold((failure) async* {
+          yield LogindataInitial();
+        }, (user) async* {
+          yield LoggedUserProfileState(user: user);
+        });
+      } else {
+        yield LoginErrorState(message: "Please turn location");
+      }
     }
   }
 

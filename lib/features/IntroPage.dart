@@ -1,9 +1,11 @@
-import 'package:eKonnect/features/presentation/bloc/splashscreenbloc/splashscreen_bloc.dart';
-import 'package:eKonnect/features/presentation/pages/IntroStatePage.dart';
-import 'package:eKonnect/features/presentation/pages/TermsAndConditions.dart';
-import 'package:eKonnect/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../injection_container.dart';
+import 'presentation/bloc/splashscreenbloc/splashscreen_bloc.dart';
+import 'presentation/pages/ErrorPage.dart';
+import 'presentation/pages/IntroStatePage.dart';
+import 'presentation/pages/TermsAndConditions.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({Key key}) : super(key: key);
@@ -28,8 +30,12 @@ class _IntroPageState extends State<IntroPage> {
         builder: (context, state) {
           if (state is SplashscreenInitial) {
             return IntroStatePage(press: () => bloc.add(ScrollIntroPages()));
-          } else {
+          } else if (state is SplashTermsPageState) {
             return TermsAndConditions();
+          } else if (state is SplashPermissionDeniedState) {
+            return ErrorPage(press: () => bloc.add(ScrollIntroPages()));
+          } else {
+            return Container(color: Colors.white);
           }
         },
       ),

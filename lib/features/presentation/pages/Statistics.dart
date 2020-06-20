@@ -1,11 +1,11 @@
-import 'package:eKonnect/features/data/models/CountriesModel.dart';
-import 'package:eKonnect/features/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../injection_container.dart';
+import '../../data/models/CountriesModel.dart';
 import '../bloc/statisticsdata/statisticsdata_bloc.dart';
-import '../widgets/loading_widget.dart';
+import '../widgets/dashboard_widgets/dashboard_widgets.dart';
+import '../widgets/widgets.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({Key key}) : super(key: key);
@@ -35,11 +35,10 @@ class _StatisticsPageState extends State<StatisticsPage>
           if (state is StatisticsdataInitial) {
             return Container();
           } else if (state is StatisticsdataLoadingState) {
-            return Center(child: LoadingWidget(height: height));
+            return ShimmerList();
           } else if (state is StatisticsdataLoadedState) {
             return _buildPost(context, state.countries);
           } else if (state is StatisticsdataErrorState) {
-            print(state.countries);
             return _buildPost(context, state.countries);
           } else if (state is StatisticsdataCacheErrorState) {
             return Center(child: Text(state.message));
@@ -55,107 +54,7 @@ class _StatisticsPageState extends State<StatisticsPage>
     return ListView.builder(
       itemCount: countries.length,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 2,
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  color: Colors.purple,
-                  width: double.infinity,
-                  height: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      countries[index].country,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              countries[index].cases.toString(),
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Confirmed ",
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              countries[index].deaths.toString(),
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Deaths",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              countries[index].recovered.toString(),
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "Recovered",
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20)
-              ],
-            ),
-          ),
-        );
+        return KenyanCases(kenya: countries[index]);
       },
     );
   }

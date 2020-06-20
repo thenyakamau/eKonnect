@@ -8,3 +8,4 @@ export 'counter_widget.dart';
 export 'my_header.dart';
 export 'prevention_card.dart';
 export 'symptoms_card.dart';
+export 'shimmer_list.dart';

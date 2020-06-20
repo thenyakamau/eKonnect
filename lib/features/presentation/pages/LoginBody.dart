@@ -42,7 +42,7 @@ class _LoginBodyState extends State<LoginBody> {
       phone = widget.p_number;
       n_id = widget.id;
       dob = widget.mdate.toString();
-      mgender = widget.gender;
+      mgender = widget.gender == null ? widget.gender : "Male";
     });
   }
 
@@ -159,7 +159,7 @@ class _LoginBodyState extends State<LoginBody> {
                   children: <Widget>[
                     Radio(
                       value: "Male",
-                      groupValue: widget.gender,
+                      groupValue: mgender,
                       onChanged: (value) {
                         setState(() {
                           mgender = value;
@@ -175,7 +175,7 @@ class _LoginBodyState extends State<LoginBody> {
                 children: <Widget>[
                   Radio(
                     value: "Female",
-                    groupValue: widget.gender,
+                    groupValue: mgender,
                     onChanged: (value) {
                       setState(() {
                         mgender = value;

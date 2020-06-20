@@ -28,3 +28,8 @@ class SplashTermsPageState extends SplashscreenState {
   @override
   List<Object> get props => [];
 }
+
+class SplashPermissionDeniedState extends SplashscreenState {
+  @override
+  List<Object> get props => [];
+}

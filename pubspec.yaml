@@ -32,13 +32,10 @@ dependencies:
   get_it: ^4.0.2
   # Bloc for state management
   flutter_bloc: ^4.0.0
-  bloc: ^4.0.0
   # Value equality
   equatable: ^1.1.1
   # Functional programming thingies
   dartz: ^0.9.1
-  # Remote API
-  http: ^0.12.1
   # Local cache
   shared_preferences: ^0.5.7+3
   #check connection
@@ -61,9 +58,6 @@ dependencies:
   logging: ^0.11.4
   #build models
   built_value: ^7.1.0
-  #hive database
-  hive: ^1.4.1+1
-  hive_flutter: ^0.3.0+2
   # For OS-specific directory paths
   path_provider: ^1.6.10
   #bluetooth
@@ -71,8 +65,13 @@ dependencies:
   #onBoarding
   fancy_on_boarding: ^1.6.0
   #database
-  moor: ^3.1.0
   moor_flutter: ^3.0.0
+  #calling
+  url_launcher: ^5.4.11
+  #shimmer
+  shimmer: ^1.1.1
+  #permissions
+  permission_handler: ^5.0.1
   
 
 dev_dependencies:
@@ -85,13 +84,11 @@ dev_dependencies:
   chopper_generator: ^3.0.4
   json_serializable: ^3.3.0
   built_value_generator: ^7.1.0
-  hive_generator: ^0.7.0+2
   flutter_launcher_icons: ^0.7.5
   moor_generator: ^3.1.0
 
-
 flutter_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
   image_path: "assets/images/logo.png"
 

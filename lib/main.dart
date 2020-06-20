@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'core/routes/RoutesGenerator.dart';
 import 'injection_container.dart' as di;
@@ -10,8 +8,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _setUpLogging();
   await di.init();
-  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
 
   runApp(MyApp());
 }
