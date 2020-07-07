@@ -1,5 +1,4 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:eKonnect/features/domain/usecases/ServiceOn.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
@@ -30,6 +29,7 @@ import 'features/domain/usecases/GetUserProfile.dart';
 import 'features/domain/usecases/GetUuid.dart';
 import 'features/domain/usecases/LoginUser.dart';
 import 'features/domain/usecases/SaveInteraction.dart';
+import 'features/domain/usecases/ServiceOn.dart';
 import 'features/domain/usecases/TurnOnBlueTooth.dart';
 import 'features/presentation/bloc/dashboarddata/dashboarddata_bloc.dart';
 import 'features/presentation/bloc/homepagebloc/homepage_bloc.dart';

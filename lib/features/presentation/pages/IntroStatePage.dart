@@ -1,5 +1,6 @@
 import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../widgets/widgets.dart';
 
@@ -42,10 +43,16 @@ class IntroStatePage extends StatelessWidget {
             bottom: 10,
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: CustomText(
-                  text: "< swipe left",
-                  color: Colors.grey.withOpacity(0.5),
-                )),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey.withOpacity(0.7),
+                  highlightColor: Colors.white,
+                  direction: ShimmerDirection.rtl,
+                  child: CustomText(
+                  text: " Swipe left ",  
+                  size: 23,
+                ),
+              )
+            ),
           )
         ],
       ),

@@ -59,10 +59,12 @@ class _LoginBodyState extends State<LoginBody> {
             initialValue: widget.f_name,
             decoration: InputDecoration(
               labelText: "First Name",
+              contentPadding: EdgeInsets.only(top: 14.0),
               labelStyle: kLabelStyle,
               prefixIcon: Icon(
                 Icons.person,
               ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
               hintText: 'Enter your first name',
               hintStyle: kHintTextStyle,
             ),
@@ -85,6 +87,7 @@ class _LoginBodyState extends State<LoginBody> {
               prefixIcon: Icon(
                 Icons.person,
               ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
               hintText: 'Enter your last name',
               hintStyle: kHintTextStyle,
             ),
@@ -107,6 +110,7 @@ class _LoginBodyState extends State<LoginBody> {
               prefixIcon: Icon(
                 Icons.call,
               ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
               hintText: 'Enter your phone number',
               hintStyle: kHintTextStyle,
             ),
@@ -130,6 +134,7 @@ class _LoginBodyState extends State<LoginBody> {
               prefixIcon: Icon(
                 Icons.credit_card,
               ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
               hintText: 'Enter your id',
               hintStyle: kHintTextStyle,
             ),
@@ -209,6 +214,7 @@ class _LoginBodyState extends State<LoginBody> {
               prefixIcon: Icon(
                 Icons.calendar_today,
               ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
               hintText: 'Enter your date of birth',
               hintStyle: kHintTextStyle,
             ),

@@ -10,7 +10,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       width: double.infinity,
       child: RaisedButton(
         onPressed: press,
@@ -18,7 +18,7 @@ class LoginButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.red[400],
+        color: Color.fromRGBO(136, 14, 79, 1),
         child: Text(
           title,
           style: TextStyle(
